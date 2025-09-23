@@ -1,0 +1,7 @@
+{
+  "name": "alerta-persona",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
