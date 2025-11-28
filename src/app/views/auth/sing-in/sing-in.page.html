@@ -1,0 +1,215 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>sing-in</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">sing-in</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+
+<ion-content >
+
+  <div class="container">
+
+    <div class="c-flex">
+      <ion-img class="imagenLogo" [src]="appLogo" alt="{{appName}} logo"></ion-img>
+    </div>
+
+    <p class="title" >Registro</p>
+
+    <form [formGroup]="usuarioNuevo">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <app-text-input 
+              formControlName="nombre"
+              placeholder="Nombre"
+              label="Nombre"
+              [required]="true"
+              style="width: 100%;"
+              [error]="(!(usuarioNuevo.get('nombre')?.valid!) && usuarioNuevo.get('nombre')?.touched!)"
+              [errorTxt]="usuarioNuevo.get('nombre')?.errors![0]"
+            >
+            </app-text-input>
+          </ion-col>
+          <ion-col size="6">
+            <app-text-input
+              formControlName="apellido"
+              placeholder="Apellido"
+              label="Apellido" 
+              [required]="true" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('apellido')?.valid!) && usuarioNuevo.get('apellido')?.touched!)"
+            >
+            </app-text-input>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row>
+          <ion-col size="6">
+            <app-text-input 
+              formControlName="nroDocumento" 
+              inputType="number" 
+              placeholder="DNI" 
+              label="Nro Documento" 
+              [required]="true" 
+              style="width: 100%;"
+              [error]="(!(usuarioNuevo.get('nroDocumento')?.valid!) && usuarioNuevo.get('nroDocumento')?.touched!)"
+              errorTxt="Documetno invalido"
+              [largoMaximo]="8"
+            >
+            </app-text-input>
+          </ion-col>
+          <ion-col size="6">
+            <app-text-input 
+              formControlName="nroTramite" 
+              inputType="number" 
+              placeholder="Nro Tramite" 
+              label="Nro Tramite" 
+              [required]="true" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('nroTramite')?.valid!) && usuarioNuevo.get('nroTramite')?.touched!)"
+              errorTxt="Nro de tramite invalido"
+              [largoMaximo]="11"
+            >
+            </app-text-input>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row>
+          <ion-col size="6">
+            <!-- <app-text-input 
+              formControlName="genero"
+              placeholder="Genero" 
+              label="Genero"
+              [required]="true" 
+              [mostrarAclaracion]="true" 
+              aclaracion="(el que muestra el DNI)" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('genero')?.valid!) && usuarioNuevo.get('genero')?.touched!)"
+            >
+            </app-text-input> -->
+            <!-- <app-select-input
+              formControlName="genero"
+              placeholder="Genero"
+              label="Genero"
+              [mostrarAclaracion]="true"
+              aclaracion="(el que muestra el DNI)"
+              style="width: 100%;"
+              
+              [valores]="['Masculino', 'Femenino', 'X']"
+              
+            >
+            </app-select-input> -->
+            <app-select-input
+              formControlName="genero"
+              [options]="generos"
+              optionValueField="id"
+              optionLabelField="nombre"
+              label="Género"
+              placeholder="Seleccione su género"
+              [required]="true"
+              [showError]="usuarioNuevo.get('genero')!.invalid && 
+                          (usuarioNuevo.get('genero')!.dirty || usuarioNuevo.get('genero')!.touched)"
+              errorMessage="Debe seleccionar un género">
+            </app-select-input>
+          </ion-col>
+          <ion-col size="6">
+            <app-text-input 
+              formControlName="fchNacimiento" 
+              inputType="date" 
+              placeholder="" 
+              label="Fecha nacimiento" 
+              [required]="true" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('fchNacimiento')?.valid!) && usuarioNuevo.get('fchNacimiento')?.touched!)"
+            >
+            </app-text-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <app-text-input 
+              formControlName="telefono" 
+              inputType="tel" 
+              placeholder="Telefono" 
+              label="Telefono" 
+              [required]="true" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('telefono')?.valid!) && usuarioNuevo.get('telefono')?.touched!)"
+              [largoMaximo]="10"
+            >
+            </app-text-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="10" offset="1">
+            <app-text-input 
+              formControlName="mail" 
+              inputType="mail" 
+              placeholder="mail@mail.com" 
+              label="Mail" 
+              [required]="true" 
+              style="width: 100%;" 
+              [error]="(!(usuarioNuevo.get('mail')?.valid!) && usuarioNuevo.get('mail')?.touched!)"
+            >
+            </app-text-input>
+          </ion-col>
+        </ion-row>
+
+        <!-- <ion-row>
+          <ion-col size="6">
+            <app-password-input formControlName="password" placeholder="Contraseña" label="Contraseña" [required]="true" style="width: 100%; margin: 4px 0;"></app-password-input>
+          </ion-col>
+          <ion-col size="6">
+            <app-password-input formControlName="passwordRepetida" placeholder="Repetir Contraseña" label="Repetir" [required]="true" style="width: 100%; margin: 4px 0;"></app-password-input>
+          </ion-col>
+        </ion-row> -->
+        
+        <ion-row>
+          <ion-col size="10" offset="1">
+            <app-password-input 
+              formControlName="password" 
+              placeholder="Contraseña" 
+              label="Contraseña" 
+              [required]="true" 
+              style="width: 100%; margin: 4px 0;" 
+              [error]="(!(usuarioNuevo.get('password')?.valid!) && usuarioNuevo.get('password')?.touched!)"
+            >
+            </app-password-input>
+            <app-password-input 
+              formControlName="passwordRepetida" 
+              placeholder="Repetir Contraseña" 
+              [mostarLabel]="false" 
+              [required]="true" 
+              style="width: 100%; margin: 4px 0;" 
+            >
+            </app-password-input>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </form>
+    
+    <!-- <app-text-input [(ngModel)]="mail" placeholder="Nombre" icono="send" placeholder="mail@mail.com" [mostarLabel]="false" style="width: 100%; margin: 8px 0;"></app-text-input>
+    <app-password-input [(ngModel)]="pass" placeholder="password" icono="lock-closed" placeholder="contraseña" [mostarLabel]="false" style="width: 100%; margin: 8px 0;"></app-password-input> -->
+
+    <app-general-button
+      (botonClick)="registro()" 
+      label="Registrarme" 
+      style="width: 100%; margin-top: 16px;" 
+    >
+    </app-general-button>
+    <a routerLink="/login" class="linkLogin">Ya tengo cuenta</a>
+
+
+  </div>
+
+</ion-content>

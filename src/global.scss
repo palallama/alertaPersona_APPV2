@@ -35,3 +35,47 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/* Estilos personalizados para modales */
+.share-link-modal {
+  --width: 90%;
+  --max-width: 500px;
+  --height: auto;
+  --max-height: 90vh;
+  --min-height: 600px;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  
+  ion-content {
+    --overflow: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .share-link-modal {
+    --width: 480px;
+    --max-height: 85vh;
+    --min-height: 700px;
+  }
+}
+
+
+.footer-md {
+    box-shadow: none !important;
+}
+
+/* Asegura que el modal se muestre correctamente */
+.custom-alert-modal {
+  --width: fit-content;
+  --min-width: 280px;
+  --height: fit-content;
+  --border-radius: 12px;
+  padding: 0px 5vh;
+  text-align: center;
+  
+  .ion-page {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+}

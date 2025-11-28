@@ -1,0 +1,132 @@
+.alert-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: var(--ion-color-step-50);
+  border: 1px solid var(--ion-color-step-200);
+  box-shadow: 0 2px 8px var(--ion-color-step-150);
+  transition: all 0.3s ease;
+  position: relative;
+  
+  .badge-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  .status-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .status-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    
+    .status-message {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .status-timer {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  // Estados del badge - usando colores del tema de Ionic
+  &.status-idle {
+    background: var(--ion-color-step-100);
+    color: var(--ion-color-step-600);
+    border: 1px solid var(--ion-color-step-250);
+    
+    .status-icon {
+      color: var(--ion-color-step-600);
+    }
+  }
+
+  &.status-solucionada {
+    background: var(--ion-color-success-tint);
+    color: var(--ion-color-success-contrast);
+    border: 1px solid var(--ion-color-success);
+    
+    .status-icon {
+      color: var(--ion-color-success-contrast);
+      animation: rotate 2s linear infinite;
+    }
+    
+    .pulse-dot {
+      background: var(--ion-color-warning-contrast);
+    }
+  }
+
+  &.status-emitida {
+    background: var(--ion-color-info-tint);
+    color: var(--ion-color-info-contrast);
+    border: 1px solid var(--ion-color-info);
+    
+    .status-icon {
+      color: var(--ion-color-info-contrast);
+    }
+  }
+
+  &.status-cancelada {
+    background: var(--ion-color-danger-tint);
+    color: var(--ion-color-danger-contrast);
+    border: 1px solid var(--ion-color-danger);
+    
+    .status-icon {
+      color: var(--ion-color-danger-contrast);
+    }
+  }
+
+  &.status-expirada {
+    background: var(--ion-color-disabled-tint);
+    color: var(--ion-color-disabled-contrast);
+    border: 1px solid var(--ion-color-disabled);
+    
+    .status-icon {
+      color: var(--ion-color-danger-contrast);
+    }
+  }
+}
+
+// Animaciones
+@keyframes pulse-dot {
+  0% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.5; 
+    transform: scale(1.2); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

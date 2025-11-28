@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="history-content">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Arrastra para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Tabs para filtrar alertas -->
+  <div class="tabs-container">
+    <ion-segment 
+      [value]="selectedTab" 
+      (ionChange)="onTabChange($event)"
+      class="custom-segment">
+      <ion-segment-button value="todas" class="segment-button">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="emitidas" class="segment-button">
+        <ion-label>Emitidas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="asistidas" class="segment-button">
+        <ion-label>Asistidas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Lista de alertas -->
+  @if (filteredAlerts.length > 0) {
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Historial de Alertas</h2>
+        <button class="sort-button" (click)="toggleSort()">
+          <ion-icon name="swap-vertical"></ion-icon>
+          <span>{{ sortByRecent ? 'Más recientes' : 'Más antiguos' }}</span>
+        </button>
+      </div>
+
+      <div class="alerts-list">
+        @for (alert of filteredAlerts; track alert.id) {
+          <div class="alert-item">
+            <div class="alert-badges">
+              <ion-chip [color]="getTypeColor(alert.tipo)" class="type-chip">
+                {{ getTypeText(alert.tipo) }}
+              </ion-chip>
+              <ion-chip [color]="getStatusColor(alert.estado)" class="status-chip">
+                {{ getStatusText(alert.estado) }}
+              </ion-chip>
+            </div>
+            <div class="alert-date">
+              <span class="date-text">Emisión: {{ getFormattedDate(alert) }} {{ getFormattedTime(alert) }}</span>
+            </div>
+            <!-- Información adicional según el tipo -->
+            @if (alert.tipo === 'asistida' && alert.usuario) {
+              <div class="alert-extra-info">
+                <span class="extra-text">Solicitante: {{ getUsuarioInfo(alert) }}</span>
+              </div>
+            }
+            @if (alert.tipo === 'emitida' && getAsistentesCount(alert) > 0) {
+              <div class="alert-extra-info">
+                <span class="extra-text">Asistentes: {{ getAsistentesCount(alert) }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Mensaje cuando no hay alertas -->
+  @if (filteredAlerts.length === 0) {
+    <div class="empty-state">
+      <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+      <h3>No hay alertas</h3>
+      <p>No se encontraron alertas para el filtro seleccionado</p>
+    </div>
+  }
+</ion-content>
+
+<app-footer></app-footer>

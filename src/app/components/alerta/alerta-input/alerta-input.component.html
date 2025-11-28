@@ -1,0 +1,40 @@
+<div class="custom-alert-backdrop" (click)="handleBackdropClick($event)">
+  <div class="custom-alert-container" [class]="cssClass" (click)="$event.stopPropagation()">
+    @if(title) {
+      <div class="custom-alert-header">
+        <h2>{{ title }}</h2>
+      </div>
+    }
+    @if(message) {
+      <div class="custom-alert-content">
+        <p>{{ message }}</p>
+      </div>
+    }
+    
+    <div class="custom-alert-input">
+      <!-- <ion-input
+        [type]="inputType"
+        [placeholder]="inputPlaceholder"
+        [(ngModel)]="inputValue"
+        [autofocus]="true">
+      </ion-input> -->
+      <app-text-input 
+        [(ngModel)]="inputValue" 
+        [inputType]="inputType"
+        [placeholder]="inputPlaceholder"
+        [autofocus]="true"
+      >
+      </app-text-input>
+    </div>
+    
+    <div class="custom-alert-buttons">
+      @for(button of buttons; track button) {
+        <ion-button 
+          (click)="onButtonClick(button)"
+          [class]="button.cssClass || ''">
+          {{ button.text }}
+        </ion-button>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Contactos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Arrastra para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="search-section">
+    <ion-searchbar placeholder="Buscar por nombre" [(ngModel)]="searchTerm" (ionInput)="onSearchChange($event)"
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <div class="contacts-section">
+    <h3 class="section-title">Tus contactos</h3>
+
+    <ion-list>
+      @for (contacto of filteredContacts; track trackByContactoId($index, contacto)) {
+        <ion-item class="contact-item">
+          <ion-label>
+            <h2>{{ getNombreCompleto_contactoUsuario(contacto) }}</h2>
+            <!-- <p class="contact-status">{{ contacto.tipoRelacion }}</p> -->
+          </ion-label>
+
+          <ion-toggle slot="end" [checked]="contacto.activo" (ionChange)="toggleContact(contacto)">
+          </ion-toggle>
+        </ion-item>
+      }
+    </ion-list>
+  </div>
+
+  <div class="search-section">
+    <ion-button fill="solid" color="primary" class="add-contact-btn" (click)="addContact()">
+      <ion-icon name="person-add-outline" slot="start"></ion-icon>
+      Agregar
+    </ion-button>
+  </div>
+  
+  @if (contactosPendientes.length > 0) {
+    <div class="pending-section">
+
+      <div class="section-header">
+        <h3 class="section-title">Pendientes de aceptación</h3>
+        <ion-badge color="primary">{{ pendingCount }}</ion-badge>
+      </div>
+
+      <ion-list>
+        @for (pendiente of contactosPendientes; track trackByPendienteId($index, pendiente)) {
+          <ion-item class="pending-item">
+            <ion-label>
+              <h2>{{ getNombreCompleto_contactoUsuario(pendiente) }}</h2>
+              <p class="pending-status">{{ getEstadoText(pendiente.estado, 'pendientes') }}</p>
+            </ion-label>
+
+            <div slot="end" class="pending-actions">
+              <ion-button fill="clear" size="small" (click)="cancelSentInvitation(pendiente.id)">
+                <ion-icon name="close-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  }
+  
+  @if (contactosAAceptar.length > 0) {
+    <div class="pending-section">
+
+      <div class="section-header">
+        <h3 class="section-title">Solicitan tu ayuda</h3>
+        <ion-badge color="primary">{{ toAcceptCount }}</ion-badge>
+      </div>
+
+      <ion-list>
+        @for (pendiente of contactosAAceptar; track trackByPendienteId($index, pendiente)) {
+          <ion-item class="pending-item">
+            <ion-label>
+              <h2>{{ getNombreCompleto_usuario(pendiente) }}</h2>
+              <p class="pending-status">{{ getEstadoText(pendiente.estado, 'aAceptar') }}</p>
+            </ion-label>
+
+            <div slot="end" class="pending-actions">
+              <ion-button fill="clear" size="small" color="success" (click)="acceptPendingContact(pendiente.id)">
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" color="danger" (click)="rejectPendingContact(pendiente.id)">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  }
+
+  <div class="quick-options">
+    <h3 class="section-title">Opciones rápidas</h3>
+
+    <ion-list>
+      <ion-item button (click)="shareInvitationLink()" class="option-item">
+        <ion-icon name="share-outline" slot="start" class="option-icon"></ion-icon>
+        <ion-label>
+          <h2>Compartir enlace de invitación</h2>
+          <p>Envía tu enlace personal de seguridad</p>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

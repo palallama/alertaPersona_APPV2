@@ -1,0 +1,29 @@
+<div class="footer-container">
+  <div class="footer-content">
+    <div class="alert-button-wrapper">
+      <div class="progress-ring" [class.active]="buttonState === 'pressing' || buttonState === 'ready'"></div>
+      <div class="alert-button" 
+           [class.pressing]="buttonState === 'pressing'"
+           [class.alert-ready]="buttonState === 'ready'"
+           (touchstart)="onTouchStart($event)"
+           (touchend)="onTouchEnd($event)"
+           (touchcancel)="onTouchCancel($event)"
+           (mousedown)="onMouseDown($event)"
+           (mouseup)="onMouseUp($event)"
+           (contextmenu)="onContextMenu($event)">
+        <img [src]="appLogo" class="alert-logo" alt="Logo">
+      </div>
+    </div>
+    <div class="footer-text">
+      <span>
+        @if (buttonState === 'normal') {
+          Mantén presionado para emitir una alerta
+        } @else if (buttonState === 'pressing') {
+          Manteniendo... 
+        } @else if (buttonState === 'ready') {
+          ¡Listo para alertar!
+        }
+      </span>
+    </div>
+  </div>
+</div>

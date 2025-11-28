@@ -1,0 +1,127 @@
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--app-background-color);
+  box-shadow: 0 -2px 10px var(--ion-color-light-shade);
+  z-index: 1000;
+  border-top: 1px solid var(--ion-color-light);
+}
+
+.footer-content {
+  position: relative;
+  padding: 0 20px 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alert-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: -25px; // Para que sobresalga hacia arriba
+}
+
+.alert-button {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--app-background-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--ion-color-light-shade);
+  border: 4px solid var(--app-background-color);
+  position: relative;
+  
+  // Prevenir menú contextual
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--ion-color-medium-shade);
+  }
+  
+  // Estados para long press
+  &.pressing {
+    transform: scale(0.9);
+    box-shadow: 0 8px 25px var(--app-shadow-primary);
+    background: var(--app-overlay-primary-light);
+  }
+  
+  &.alert-ready {
+    animation: pulse 0.5s infinite alternate;
+    box-shadow: 0 8px 30px var(--app-shadow-warning);
+  }
+  
+  .alert-icon {
+    font-size: 22px;
+    color: white;
+  }
+  
+  .alert-logo {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+.footer-text {
+  margin-top: 10px;
+  text-align: center;
+  
+  span {
+    font-size: 11px;
+    color: var(--ion-color-medium);
+    font-weight: 400;
+  }
+}
+
+// Animación para el botón listo para alertar
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(0.95);
+  }
+}
+
+// Barra de progreso para long press
+.progress-ring {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  
+  &.active {
+    border-color: var(--ion-color-warning);
+    animation: progress-fill 3s linear forwards;
+  }
+}
+
+@keyframes progress-fill {
+  from {
+    stroke-dasharray: 0 377;
+  }
+  to {
+    stroke-dasharray: 377 377;
+  }
+}

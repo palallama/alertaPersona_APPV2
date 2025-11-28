@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true">
+
+  <div class="container">
+
+    <div class="c-flex">
+      <ion-img class="imagenLogo" [src]="appLogo" alt="{{appName}} logo"></ion-img>
+    </div>
+
+    <p class="title" >Ingrese el codigo.</p>
+
+      <form [formGroup]="form" (submit)="enter()">
+
+        <ion-input-otp formControlName="code" shape="soft" length="6">
+        </ion-input-otp>
+
+        <app-general-button id="next" label="Comprobar" style="width: 100%; margin: 34px 0;"></app-general-button>
+      </form>
+      
+
+    
+    <div class="volver">
+      <a (onclick)="reeviar()">Reenviar Codigo</a>
+    </div>
+   
+  </div>
+
+</ion-content>

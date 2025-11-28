@@ -1,0 +1,61 @@
+.profile-content {
+  --background: var(--app-background-color);
+  --padding-bottom: 120px; // Espacio para el footer
+}
+
+.profile-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// Información del usuario
+.user-info {
+  text-align: center;
+  margin-bottom: 30px;
+  
+  .user-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 8px 0;
+  }
+  
+  .user-status {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    margin: 0 0 20px 0;
+  }
+  
+}
+
+// Sección de cerrar sesión
+.logout-section {
+  text-align: center;
+  margin-top: 30px;
+  
+  .logout-btn,
+  .ban-btn {
+    margin: 12px 0px;
+    font-size: 16px;
+    
+    ion-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 15px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    
+    ion-button {
+      max-width: none;
+    }
+  }
+}

@@ -1,0 +1,119 @@
+<ion-content [fullscreen]="true" class="main-content">
+  <div class="page-container">
+
+    <div class="map-container">
+      @if (mapOptions) {
+        <app-google-maps
+          [options]="mapOptions"
+          (mapReady)="onMapReady($event)"
+          (mapError)="onMapError($event)"
+        >
+        </app-google-maps>
+      } @else {
+        <div class="map-loading">
+          <p>Cargando mapa...</p>
+        </div>
+      }
+
+      <app-location-display
+        [locationInfo]="locationInfo"
+        [title]="'Ubicación de la alerta'"
+        [showTime]="true"
+        class="location-badge"
+      >
+      </app-location-display>
+    </div>
+
+    <div class="info-panel">
+      <div class="alert-status-section">
+        <app-alert-status-badge [status]="currentStatus"></app-alert-status-badge>
+      </div>
+
+      @if (alerta) {
+        <div class="alert-info-section">
+          <div class="alert-type">
+            <ion-icon name="warning-outline" color="danger"></ion-icon>
+            <span>{{ alertTitle }}</span>
+          </div>
+
+          <div class="alert-description">
+            <p>{{ alertDescription }}</p>
+          </div>
+
+          <!-- <div class="alert-time">
+            <ion-icon name="time-outline" color="medium"></ion-icon>
+            <span>{{ getFechaTexto() }}</span>
+          </div>
+
+          <div class="alert-location">
+            <ion-icon name="location-outline" color="medium"></ion-icon>
+            <span>{{ getUbicacionTexto() }}</span>
+          </div> -->
+        </div>
+      }
+
+      <div class="response-buttons" style="margin-top: 15px;">
+        @if (statusMessage) {
+          <div class="status-message">
+            <p>{{ statusMessage }}</p>
+          </div>
+        }
+
+        @if (isAlertaCerrada()) {
+          <!-- Mostrar solo botón de volver al home si la alerta está cerrada -->
+          <div class="alert-closed-message">
+            <ion-icon name="information-circle-outline" color="medium"></ion-icon>
+            <p>Esta alerta ya no está activa</p>
+          </div>
+          
+          <ion-button
+            expand="block"
+            color="primary"
+            (click)="volverAlHome()"
+          >
+            <ion-icon name="home-outline" slot="start"></ion-icon>
+            Volver al inicio
+          </ion-button>
+        } @else if (estaAsistiendo) {
+          <!-- Mostrar botón de cerrar cuando ya confirmó asistencia -->
+          <div class="assisting-message">
+            <ion-icon name="walk-outline"></ion-icon>
+            <p>Estás asistiendo a esta alerta</p>
+          </div>
+          
+          <ion-button
+            expand="block"
+            color="primary"
+            (click)="onCerrarAlerta()"
+          >
+            <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+            Cerrar Alerta
+          </ion-button>
+        } @else {
+          <!-- Mostrar opciones de asistencia si la alerta está activa y no ha respondido -->
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="onAcceptAssistWithRoute()"
+            [disabled]="isSubmitting"
+          >
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            {{ isSubmitting ? 'Confirmando...' : 'Confirmar Asistencia' }}
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            color="danger"
+            (click)="onRejectAssist()"
+            [disabled]="isSubmitting"
+          >
+            <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+            No puedo asistir
+          </ion-button>
+        }
+      </div>
+
+    </div>
+  </div>
+</ion-content>

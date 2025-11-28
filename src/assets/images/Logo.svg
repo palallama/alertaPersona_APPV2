@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 318.5 318.5">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#drop-shadow-2);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: none;
+        filter: url(#drop-shadow-1);
+        stroke-width: 9px;
+      }
+
+      .cls-3, .cls-4 {
+        stroke: #fff;
+      }
+
+      .cls-4 {
+        fill: #f2f2f2;
+        stroke-width: .5px;
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="-323.38" y1="-772.56" x2="-436.9" y2="-964.92" gradientTransform="translate(539.04 -708.9) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset=".1" stop-color="#31a8d4"/>
+      <stop offset=".87" stop-color="#04caa3"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" x="118.31" y="203.38" width="88" height="88" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3"/>
+      <feGaussianBlur result="blur" stdDeviation="4"/>
+      <feFlood flood-color="#000" flood-opacity=".73"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-2" x="38.31" y="28.38" width="249" height="250" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3"/>
+      <feGaussianBlur result="blur-2" stdDeviation="4"/>
+      <feFlood flood-color="#000" flood-opacity=".73"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="logo_nuevo" data-name="logo nuevo">
+    <g>
+      <path id="fondo" class="cls-5" d="M318.5,159.25c0,87.95-71.3,159.25-159.25,159.25S0,247.2,0,159.25,71.3,0,159.25,0s159.25,71.3,159.25,159.25Z"/>
+      <path id="triangulo" class="cls-3" d="M157.41,218.74c.76-1.51,2.92-1.51,3.68,0l25.06,50.11c.68,1.37-.31,2.97-1.84,2.97h-50.11c-1.53,0-2.52-1.61-1.84-2.97l25.06-50.11Z" shape-rendering="crispEdges"/>
+      <g id="anillos" class="cls-1">
+        <path id="anillo_exterior" data-name="anillo exterior" class="cls-4" d="M159.42,38.22c62.04,0,111.74,53.76,111.74,119.32,0,44.55-22.95,83.65-57.14,104.14-2.42,1.45-5.52.53-6.88-1.94-1.39-2.51-.45-5.66,2.01-7.15,30.8-18.65,51.73-54.09,51.74-95.06,0-60.56-45.76-109.05-101.47-109.05-55.71,0-101.47,48.48-101.47,109.05,0,40.97,20.94,76.41,51.73,95.06,2.45,1.49,3.39,4.64,2.01,7.15-1.36,2.47-4.47,3.39-6.88,1.94-34.18-20.49-57.13-59.59-57.13-104.14,0-65.56,49.7-119.32,111.74-119.32Z"/>
+        <path id="anillo_central" data-name="anillo central" class="cls-2" d="M159.25,66.61c46.27,0,83.19,40.04,83.19,88.69,0,33.32-17.32,62.59-43.09,77.74-2.38,1.4-5.39.47-6.74-1.94-1.43-2.56-.42-5.77,2.09-7.28,22.27-13.34,37.47-38.89,37.47-68.52,0-43.64-32.97-78.42-72.91-78.42-39.94,0-72.91,34.77-72.91,78.42,0,29.64,15.2,55.18,37.47,68.52,2.51,1.5,3.52,4.72,2.09,7.27-1.35,2.41-4.36,3.34-6.74,1.94-25.77-15.15-43.09-44.42-43.09-77.74,0-48.65,36.92-88.69,83.19-88.69Z"/>
+        <path id="anillo_interior" data-name="anillo interior" class="cls-2" d="M159.25,100.66c27.44,0,49.13,23.65,49.13,52.11,0,19.88-10.59,37.42-26.33,46.18-2.26,1.26-5.04.32-6.33-1.92-1.54-2.67-.33-6.07,2.31-7.65,11.89-7.08,20.08-20.68,20.08-36.61,0-23.43-17.71-41.84-38.85-41.84-21.15,0-38.85,18.41-38.85,41.84,0,15.93,8.19,29.53,20.07,36.61,2.65,1.58,3.85,4.98,2.31,7.65-1.29,2.24-4.07,3.18-6.33,1.92-15.74-8.76-26.33-26.3-26.33-46.18,0-28.46,21.68-52.11,49.13-52.11Z"/>
+      </g>
+      <g id="AP">
+        <path id="A" class="cls-2" d="M138.25,166.82h-4.63l10.4-28.9h5.04l10.4,28.9h-4.63l-8.17-23.65h-.23l-8.18,23.65ZM139.02,155.5h15.01v3.67h-15.01v-3.67Z"/>
+        <path id="P" class="cls-2" d="M163.63,166.82v-28.9h10.3c2.25,0,4.11.41,5.59,1.23,1.48.82,2.58,1.94,3.32,3.36.73,1.41,1.1,3,1.1,4.77s-.37,3.38-1.11,4.8c-.73,1.41-1.84,2.53-3.33,3.36-1.48.82-3.33,1.23-5.57,1.23h-7.08v-3.7h6.69c1.42,0,2.57-.24,3.46-.73.88-.5,1.53-1.18,1.95-2.03.41-.86.62-1.83.62-2.92s-.21-2.06-.62-2.91c-.41-.85-1.07-1.51-1.96-1.99-.88-.48-2.05-.72-3.5-.72h-5.47v25.16h-4.36Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

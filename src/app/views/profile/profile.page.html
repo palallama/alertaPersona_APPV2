@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  <div class="profile-container" style="margin-bottom: 25px;">
+    
+    <!-- Información del Usuario -->
+    @if (usuario) {
+      <div class="user-info">
+        <h2 class="user-name">{{usuario.nombre}} {{usuario.apellido}}</h2>
+        <p class="user-status">
+          @if (usuario.validado) {
+            Cuenta verificada
+          } @else {
+            Cuenta no verificada
+          }
+          @if (usuario.id) {
+            • ID #AP-{{usuario.id | padZero }}
+          }
+        </p>
+      </div>
+    } @else {
+      <div class="user-info">
+        <h2 class="user-name">Cargando...</h2>
+        <p class="user-status">Obteniendo información del usuario</p>
+      </div>
+    }
+
+    <!-- Información Personal -->
+    <app-personal-info 
+      [usuario]="usuario"
+      (usuarioUpdated)="onUsuarioUpdated($event)">
+    </app-personal-info>
+
+    <!-- Preferencias -->
+    <app-preferences 
+      [usuario]="usuario">
+    </app-preferences>
+
+    <!-- Eliminar Cuenta -->
+    <div class="logout-section">
+      <ion-button fill="solid" color="warning" class="ban-btn" (click)="usuarioDisabledConfirm()">
+        <ion-icon name="ban-outline" slot="start"></ion-icon>
+        Desactivar Cuenta
+      </ion-button>
+      <ion-button fill="clear" color="danger" class="logout-btn" (click)="usuarioDeletedConfirm()">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Eliminar Cuenta
+      </ion-button>
+    </div>
+
+  </div>
+
+  <!-- Footer Component -->
+  <app-footer></app-footer>
+</ion-content>

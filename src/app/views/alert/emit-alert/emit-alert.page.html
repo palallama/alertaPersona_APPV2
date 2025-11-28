@@ -1,0 +1,75 @@
+<ion-content [fullscreen]="true" class="emit-alert-content">
+  <div class="page-container">
+    <div class="map-container">
+      @if (mapOptions) {
+        <app-google-maps
+          [options]="mapOptions"
+          [loadingMessage]="'Cargando mapa de ubicación...'"
+        >
+        </app-google-maps>
+      } @else {
+        <div class="loading-location">
+          <p>Obteniendo tu ubicación...</p>
+        </div>
+      }
+      
+      <app-location-display
+        [locationInfo]="locationInfo"
+        [title]="'Tu ubicación'"
+        [showTime]="true"
+        [isCompact]="true"
+        class="location-badge">
+      </app-location-display>
+    </div>
+
+    <div class="alert-footer">
+      
+      <div class="footer-badge">
+        <app-alert-status-badge
+          [showTimer]="true"
+        >
+        </app-alert-status-badge>
+      </div>
+
+      <div class="footer-content">
+
+        <div class="contacts-section">
+          <div class="contacts-header">
+            <ion-icon name="people-outline"></ion-icon>
+            <span class="contacts-title">Contactos a la ayuda</span>
+            <ion-button 
+              size="small" 
+              fill="solid"
+              class="contacts-status-btn"
+              >
+              En curso
+            </ion-button>
+          </div>
+          <div class="contacts-names">
+            <span>{{ getContactsNames() }}</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <ion-button 
+            fill="clear" 
+            class="cancel-button"
+            (click)="onCancelAlert()"
+          >
+            <ion-icon name="close-outline" slot="start"></ion-icon>
+            Cancelar alerta
+          </ion-button>
+          
+          <ion-button 
+            fill="solid" 
+            class="resolve-button"
+            (click)="onMarkAsResolved()"
+          >
+            Marcar como solucionada
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

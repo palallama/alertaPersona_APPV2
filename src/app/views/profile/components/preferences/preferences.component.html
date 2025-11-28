@@ -1,0 +1,56 @@
+@if (usuario) {
+  <div class="section">
+    <h3 class="section-title">Preferencias</h3>
+    
+    <!-- Sección de Notificaciones -->
+    <div class="preference-section">
+      <h4 class="subsection-title">Notificaciones</h4>
+      
+      @for (config of preferenciasConfig; track config.clave) {
+        <div class="notification-item">
+          <div class="notification-info">
+            <ion-icon [name]="config.icono" class="notification-icon"></ion-icon>
+            <div class="notification-text">
+              <span class="notification-label">{{ config.nombre }}</span>
+              <p class="notification-description">{{ config.descripcion }}</p>
+            </div>
+          </div>
+          <ion-toggle 
+            [checked]="isPreferenciaActiva(config.clave)" 
+            (ionChange)="togglePreferencia(config.clave)"
+            color="primary">
+          </ion-toggle>
+        </div>
+      }
+    </div>
+    
+    <!-- Sección de Ubicación -->
+    <div class="preference-section">
+      <h4 class="subsection-title">Ubicación</h4>
+      
+      <div class="location-item">
+        <div class="location-info">
+          <ion-icon name="location-outline" class="location-icon"></ion-icon>
+          <div class="location-text">
+            <span class="location-label">Ubicación</span>
+            <p class="location-status">{{ locationPermissionStatus }}</p>
+          </div>
+        </div>
+        <ion-button 
+          fill="outline" 
+          size="small" 
+          class="permission-btn"
+          (click)="checkLocationPermissions()">
+          {{ locationButtonText }}
+        </ion-button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="section">
+    <h3 class="section-title">Preferencias</h3>
+    <div class="loading-message">
+      <span>Cargando preferencias del usuario...</span>
+    </div>
+  </div>
+}

@@ -1,0 +1,115 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/contacts" (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="instructions">
+    <ion-text>
+      <h3>Buscar contacto</h3>
+      <p>Busca por nombre, apellido, teléfono, email o ID de usuario</p>
+    </ion-text>
+  </div>
+
+  <div class="search-section">
+    <ion-searchbar
+      placeholder="Escribe nombre, email, teléfono..."
+      [(ngModel)]="search"
+      (ionInput)="onSearchChange($event)"
+      [debounce]="500"
+      show-clear-button="focus"
+    >
+    </ion-searchbar>
+  </div>
+
+  @if (searching) {
+    <div class="loading-section">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <ion-text>
+        <p>Buscando usuarios...</p>
+      </ion-text>
+    </div>
+  }
+
+  @if (mostrarResultados && usuariosEncontrados.length > 0) {
+    <div class="results-section">
+      <h4 class="section-title">Usuarios encontrados</h4>
+
+      <ion-list>
+        @for (usuario of usuariosEncontrados; track usuario) {
+          <ion-item class="user-item">
+            <ion-label>
+              <h2>{{ getNombreCompleto(usuario) }}</h2>
+              <p class="user-email">{{ usuario.mail }}</p>
+              <p class="user-phone">{{ usuario.telefono }}</p>
+              @if (usuario.validado) {
+                <ion-text color="success">
+                  <small>✓ Usuario verificado</small>
+                </ion-text>
+              }
+            </ion-label>
+
+            @if (!usuario.esContacto) {
+              <ion-button slot="end" fill="solid" color="primary" (click)="agregarContacto(usuario)">
+                <ion-icon name="person-add-outline" slot="start"></ion-icon>
+                Agregar
+              </ion-button>
+            } @else {
+              <ion-badge color="secondary" slot="end" style="padding: 6px 12px;">Ya es contacto</ion-badge>
+            }
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  }
+  
+  @if (mostrarResultados && !searching && usuariosEncontrados.length === 0) {
+    <div class="no-results-section">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="person-outline"></ion-icon>
+            No se encontraron usuarios
+          </ion-card-title>
+        </ion-card-header>
+  
+        <ion-card-content>
+          <ion-text>
+            <p>No encontramos ningún usuario con "<strong>{{ search }}</strong>"</p>
+            @if (isEmail(search) || isPhoneNumber(search)) {
+              <p>
+                ¿Te gustaría enviar una invitación?
+              </p>
+            }
+          </ion-text>
+          
+          @if (isEmail(search) || isPhoneNumber(search)) {
+            <ion-button expand="block" color="secondary"
+              (click)="invitarUsuario()">
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              Enviar invitación
+            </ion-button>
+          } @else {
+            <ion-text>
+              <p><small>Para enviar una invitación, busca por email o número de teléfono.</small></p>
+            </ion-text>
+          }
+  
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+
+
+  @if (!mostrarResultados && !searching && search.length < 3) {
+    <div class="initial-message">
+      <ion-text color="medium">
+        <p>Comienza escribiendo al menos 3 caracteres para buscar usuarios.</p>
+      </ion-text>
+    </div>
+  }
+</ion-content>

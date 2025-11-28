@@ -1,0 +1,35 @@
+<div class="google-maps-container" [style.height]="height" [style.width]="width">
+  @if (isLoading) {
+    <app-loading [message]="loadingMessage"></app-loading>
+  }
+  
+  @if (hasValidApiKey && !hasError) {
+    <google-map
+      [height]="height"
+      [width]="width"
+      [zoom]="zoom"
+      [center]="center"
+      [options]="mapOptions"
+      (mapInitialized)="onMapReady($any($event))"
+    >
+      @for (marker of markers; track marker.position.lat) {
+        <map-marker
+          [position]="{ lat: marker.position.lat, lng: marker.position.lng }"
+          [title]="marker.title || ''"
+        ></map-marker>
+      }
+      
+      @if (showDirections && directionsResults) {
+        <map-directions-renderer 
+          [directions]="(directionsResults | async)!"
+        ></map-directions-renderer>
+      }
+    </google-map>
+  }
+  
+  @if (!hasValidApiKey || hasError) {
+    <div class="map-placeholder">
+      <p>{{ errorMessage || 'Mapa no disponible' }}</p>
+    </div>
+  }
+</div>

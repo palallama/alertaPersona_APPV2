@@ -1,0 +1,52 @@
+<div class="contenedor">
+  @if (mostarLabel) {
+    <label for="input">
+      {{label}}
+      @if (required) {
+        <span class="requerido">  *</span>
+      }
+      @if (mostrarAclaracion) {
+        <span class="aclaracion">{{aclaracion}}</span>
+      }
+    </label>
+  }
+  
+  <div class="input">
+
+    <div
+      [style]="style"
+    >
+      @if (icono!=='') {
+        <div class="icon-izq">
+          <ion-icon class="icon" name="{{icono}}"></ion-icon>
+        </div>
+      }
+      <input #input
+        [value]="defaultValue"
+        [type]="inputType"
+
+        oninput="javascript: if (this.maxLength > 0) { if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); }"
+        [maxLength]="(largoMaximo)"
+        
+
+        [placeholder]="placeholder"
+        [readOnly]="readOnly"
+        [disabled]="disabled"
+        [required]="required"
+  
+        style="width: 100%;"
+  
+        [ngClass]="{'error': error}"
+  
+        (input)="onInput($event.target)"
+        (blur)="onTouched($event)"
+        (focus)="onFocus()"
+        />
+    </div>
+  </div>
+  @if (error) {
+    <div class="invalid-feedback">
+      {{ errorTxt }}
+    </div>
+  }
+</div>

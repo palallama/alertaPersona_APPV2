@@ -1,0 +1,183 @@
+// Estilos para el componente de información personal
+
+// Secciones
+.section {
+  background: var(--ion-item-background, var(--app-background-color));
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px var(--ion-color-light-shade);
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 20px 0;
+  }
+}
+
+// Items de información
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ion-color-light);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .label {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+  
+  .value {
+    font-size: 14px;
+    color: var(--ion-text-color);
+    font-weight: 400;
+  }
+}
+
+// Formulario de edición
+.edit-form {
+  .form-field {
+    margin-bottom: 20px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .field-label {
+      display: block;
+      font-size: 14px;
+      color: var(--ion-color-medium);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .custom-input {
+      --background: var(--ion-item-background);
+      --border-radius: 8px;
+      --border-width: 1px;
+      --border-color: var(--ion-color-light);
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --min-height: 48px;
+      
+      ion-input {
+        --color: var(--ion-text-color);
+        --placeholder-color: var(--ion-color-medium-shade);
+        font-size: 14px;
+      }
+      
+      &:focus-within {
+        --border-color: var(--ion-color-primary);
+      }
+    }
+  }
+}
+
+// Botones de edición
+.edit-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  
+  ion-button {
+    flex: 1;
+    height: 48px;
+    --border-radius: 8px;
+    font-weight: 600;
+    
+    &.edit-btn {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      
+      &:hover {
+        --background: var(--ion-color-primary-shade);
+      }
+    }
+    
+    &.cancel-btn {
+      --color: var(--ion-color-medium);
+      --border-color: var(--ion-color-light);
+      
+      &:hover {
+        --background: var(--app-overlay-light);
+      }
+    }
+    
+    &.save-btn {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      
+      &:hover {
+        --background: var(--ion-color-primary-shade);
+      }
+      
+      &:disabled {
+        --background: var(--ion-color-light);
+        --color: var(--ion-color-medium);
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+// Mensajes de error
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.875rem;
+  margin-top: 4px;
+  margin-left: 16px;
+  font-weight: 400;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .edit-buttons {
+    flex-direction: column;
+    gap: 8px;
+    
+    ion-button {
+      height: 44px;
+    }
+  }
+  
+  .section {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .info-item {
+    padding: 10px 0;
+    
+    .label, .value {
+      font-size: 13px;
+    }
+  }
+  
+  .edit-form {
+    .form-field {
+      margin-bottom: 16px;
+      
+      .field-label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      
+      .custom-input {
+        --min-height: 44px;
+        --padding-start: 14px;
+        --padding-end: 14px;
+        
+        ion-input {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}

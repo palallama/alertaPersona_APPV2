@@ -1,0 +1,186 @@
+<div class="section">
+  @if (usuario) {
+    <h3 class="section-title">{{ isEditing ? 'Datos básicos' : 'Información personal' }}</h3>
+    
+    @if (!isEditing) {
+      <div class="info-item">
+        <span class="label">Nombre</span>
+        <span class="value">{{ personalForm.get('nombre')?.value }}</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Apellido</span>
+        <span class="value">{{ personalForm.get('apellido')?.value }}</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Documento</span>
+        <span class="value">{{ personalForm.get('nroDocumento')?.value }}</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Nro. Tramite</span>
+        <span class="value">{{ personalForm.get('nroTramite')?.value }}</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Genero</span>
+        <span class="value">{{ personalForm.get('genero')?.value }}</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Fecha de Nacimiento</span>
+        <span class="value">{{ fechaNacimientoDisplay(usuario.fchNacimiento!) }}</span>
+      </div>
+      
+      <div class="info-item">
+        <span class="label">Teléfono</span>
+        <span class="value">{{ personalForm.get('telefono')?.value }}</span>
+      </div>
+      
+      <div class="info-item">
+        <span class="label">Email</span>
+        <span class="value">{{ personalForm.get('mail')?.value }}</span>
+      </div>
+    
+      <div class="edit-buttons">
+        <ion-button fill="solid" class="edit-btn" (click)="onToggleEdit()">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Editar
+        </ion-button>
+      </div>
+    } @else {
+      <div class="edit-form" [formGroup]="personalForm">
+        <div class="form-field">
+          <label class="field-label">Nombre</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="nombre" 
+              placeholder="Ingresa tu nombre">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('nombre')?.invalid && personalForm.get('nombre')?.touched) {
+            <div class="error-message">El nombre es requerido</div>
+          }
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Apellido</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="apellido" 
+              placeholder="Ingresa tu apellido">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('apellido')?.invalid && personalForm.get('apellido')?.touched) {
+            <div class="error-message">El apellido es requerido</div>
+          }
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Documento</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="nroDocumento" 
+              placeholder="Ingresa tu documento">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('nroDocumento')?.invalid && personalForm.get('nroDocumento')?.touched) {
+            <div class="error-message">El documento es requerido</div>
+          }
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Nro. de Tramite</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="nroTramite" 
+              placeholder="Ingresa tu número de trámite">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('nroTramite')?.invalid && personalForm.get('nroTramite')?.touched) {
+            <div class="error-message">El número de trámite es requerido</div>
+          }
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Genero</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="genero" 
+              placeholder="Ingresa tu género">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('genero')?.invalid && personalForm.get('genero')?.touched) {
+            <div class="error-message">El género es requerido</div>
+          }
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Fecha de Nacimiento</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              type="date" 
+              formControlName="fchNacimiento" 
+              placeholder="Ingresa tu fecha de nacimiento">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('fchNacimiento')?.invalid && personalForm.get('fchNacimiento')?.touched) {
+            <div class="error-message">La fecha de nacimiento es requerida</div>
+          }
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Teléfono</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="telefono" 
+              placeholder="Ingresa tu teléfono">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('telefono')?.invalid && personalForm.get('telefono')?.touched) {
+            <div class="error-message">El teléfono es requerido</div>
+          }
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Email</label>
+          <ion-item class="custom-input">
+            <ion-input 
+              formControlName="mail" 
+              type="email" 
+              placeholder="Ingresa tu email">
+            </ion-input>
+          </ion-item>
+          @if (personalForm.get('mail')?.invalid && personalForm.get('mail')?.touched) {
+            <div class="error-message">
+              @if (personalForm.get('mail')?.errors?.['required']) {
+                El email es requerido
+              } @else if (personalForm.get('mail')?.errors?.['email']) {
+                El email debe tener un formato válido
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="edit-buttons">
+        <ion-button fill="outline" class="cancel-btn" (click)="onCancelEdit()">
+          Cancelar
+        </ion-button>
+        <ion-button 
+          fill="solid" 
+          class="save-btn" 
+          (click)="onSaveChanges()"
+          [disabled]="personalForm.invalid">
+          Guardar
+        </ion-button>
+      </div>
+    }
+  } @else {
+    <h3 class="section-title">Información personal</h3>
+    <div class="info-item">
+      <span class="label">Cargando información del usuario...</span>
+    </div>
+  }
+</div>

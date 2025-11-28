@@ -1,0 +1,21 @@
+<div class="alert-status-badge" [class]="getStatusClass()">
+  <div class="badge-content">
+    <ion-icon [name]="getStatusIcon()" class="status-icon"></ion-icon>
+    
+    <div class="status-text">
+      <span class="status-message">{{ getStatusMessage() }}</span>
+      @if (showTimer && status === AlertaEstados.EMITIDA) {
+        <span class="status-timer">
+          <app-elapsed-timer 
+            [isActive]="isTimerActive()"
+            customClass="medium">
+          </app-elapsed-timer>
+        </span>
+      }
+    </div>
+    
+    @if (status === AlertaEstados.EMITIDA) {
+      <div class="pulse-dot"></div>
+    }
+  </div>
+</div>

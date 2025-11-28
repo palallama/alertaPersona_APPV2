@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ appTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="alert-container" [class.dragging-active]="isDragging">
+    <div class="background-circle" [class.visible]="isDragging"></div>
+    
+    <div class="alert-button-container">
+      <!-- Indicador del centro -->
+      <div class="center-indicator" [class.visible]="isDragging">
+        <div class="center-dot"></div>
+        <div class="center-ring"></div>
+        <span class="center-text">Soltar aquí para cancelar</span>
+      </div>
+      
+      <div class="alert-button"
+           (touchstart)="onTouchStart($event)"
+           (touchmove)="onTouchMove($event)"
+           (touchend)="onTouchEnd($event)">
+        <div class="button-content">
+          <img [src]="appLogo" class="button-logo" alt="Logo">
+        </div>
+      </div>
+    </div>
+    
+    <div class="instruction-text">
+      <span>Deslizar para alertar</span>
+    </div>
+    
+    <div class="description-text">
+      En caso de emergencia Deslizar el botón
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,43 @@
+<ion-content class="menu-content">
+  <div class="menu-header">
+    <div class="menu-title">
+      <ion-icon name="chevron-back-outline" class="back-icon"></ion-icon>
+      <span>Menú</span>
+    </div>
+  </div>
+
+  <div class="menu-items">
+    @for (item of menuItems; track item.id) {
+      <div class="menu-item" 
+           [class.contact-item]="item.badge"
+           [class.active]="item.isActive"
+           (click)="navigateTo($event, item.route, item.id)">
+        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
+        @if (item.badge) {
+          <div class="menu-text-container">
+            <span class="menu-text">{{ item.title }}</span>
+            <div class="pending-badge" [style.background-color]="item.badge.color">
+              <span>{{ item.badge.text }}</span>
+            </div>
+          </div>
+        } @else {
+          <span class="menu-text">{{ item.title }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="menu-footer">
+    <div class="footer-buttons">
+      @for (button of footerButtons; track button.id) {
+        <ion-button 
+          [fill]="button.type" 
+          [class]="button.id + '-btn'" 
+          (click)="handleFooterAction($event, button.action)">
+          <ion-icon [name]="button.icon" slot="start"></ion-icon>
+          {{ button.title }}
+        </ion-button>
+      }
+    </div>
+  </div>
+</ion-content>

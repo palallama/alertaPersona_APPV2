@@ -1,0 +1,20 @@
+.elapsed-timer {
+  font-weight: 600;
+  color: inherit;
+  
+  &.small {
+    font-size: 11px;
+  }
+  
+  &.medium {
+    font-size: 13px;
+  }
+  
+  &.large {
+    font-size: 15px;
+  }
+  
+  &.bold {
+    font-weight: 700;
+  }
+}

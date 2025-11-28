@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true">
+
+  <div class="container">
+
+    <div class="c-flex">
+      <ion-img class="imagenLogo" [src]="appLogo" alt="{{appName}} logo"></ion-img>
+    </div>
+
+    <p class="title" >Olvide mi contraseña</p>
+    
+    <div class="leyenda">
+      <p style="margin-bottom: 0;">Ingrese su mail.</p>
+      <p style="margin-top: 0;">Si corresponde al de un usuario registrado le enviaremos el link de restablecimiento</p>
+    </div>
+
+    <app-text-input 
+      [formControl]="mail"
+      icono="send" 
+      placeholder="mail@mail.com"
+      [mostarLabel]="false"
+      style="width: 100%; margin: 8px 0;"
+      [error]="(!mail.valid) && mail.touched"
+    >
+    </app-text-input>
+    <app-general-button (botonClick)="enter()" label="Enviar" style="width: 100%; margin: 34px 0 0 0;" ></app-general-button>
+    <div class="volver">
+      <a routerLink="/login">Iniciar Sesion</a>
+    </div>
+
+  </div>
+
+</ion-content>

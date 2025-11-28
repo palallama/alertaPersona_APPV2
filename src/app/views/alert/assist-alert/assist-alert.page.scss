@@ -1,0 +1,481 @@
+// ========== ESTILOS PARA ASSIST-ALERT ==========
+// Basado en emit-alert pero adaptado para asistencia
+
+.main-content {
+  --background: var(--app-background-color);
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ========== CONTENEDOR PRINCIPAL ==========
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+// ========== MAPA - 60% ==========
+.map-container {
+  flex: 6; // 60% del espacio
+  position: relative;
+  z-index: 1;
+  
+  app-google-maps {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  // Indicador de carga del mapa
+  .map-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ion-color-step-100);
+    
+    p {
+      font-size: 14px;
+      color: var(--ion-color-step-600);
+      font-weight: 500;
+    }
+  }
+  
+  // Badge de ubicación sobre el mapa
+  .location-badge {
+    position: absolute;
+    top: 40px; // Más arriba ya que no hay header
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    max-width: 80%;
+    z-index: 10;
+  }
+}
+
+// ========== PANEL DE INFORMACIÓN - 40% ==========
+.info-panel {
+  flex: 4; // 40% del espacio
+  background: var(--app-background-color);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 16px var(--ion-color-step-200);
+  z-index: 20;
+  padding: 20px 24px 24px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  
+  // ========== SECCIÓN DE ESTADO ==========
+  .alert-status-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+  
+  // ========== INFORMACIÓN DE LA ALERTA ==========
+  .alert-info-section {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    
+    .alert-type {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      
+      ion-icon {
+        font-size: 20px;
+      }
+      
+      span {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ion-color-dark);
+      }
+    }
+    
+    .alert-description {
+      margin-bottom: 12px;
+      
+      p {
+        font-size: 14px;
+        color: var(--ion-color-step-600);
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+    
+    .alert-time, .alert-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      
+      ion-icon {
+        font-size: 16px;
+      }
+      
+      span {
+        font-size: 13px;
+        color: var(--ion-color-step-600);
+      }
+    }
+  }
+  
+  // ========== SECCIÓN DE ASISTENTES ==========
+  .contacts-section {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    
+    .contacts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      cursor: pointer;
+      padding: 8px 0;
+      border-radius: 8px;
+      
+      &:hover {
+        background: var(--ion-color-step-50);
+      }
+      
+      .contacts-label {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ion-color-dark);
+      }
+      
+      .contacts-summary {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        
+        span {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--ion-color-primary);
+        }
+        
+        ion-icon {
+          font-size: 16px;
+        }
+      }
+    }
+    
+    .contacts-names {
+      padding-left: 16px;
+      
+      span {
+        font-size: 13px;
+        color: var(--ion-color-step-600);
+        line-height: 1.4;
+      }
+    }
+  }
+  
+  // ========== BOTONES DE RESPUESTA ==========
+  .response-buttons {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    
+    .status-message {
+      background: var(--ion-color-success-tint);
+      color: var(--ion-color-success-contrast);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      text-align: center;
+      
+      p {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      &.loading {
+        background: var(--ion-color-primary-tint);
+        color: var(--ion-color-primary-contrast);
+      }
+    }
+    
+    .route-info {
+      background: var(--ion-color-light);
+      border-left: 4px solid var(--ion-color-primary);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      ion-icon {
+        font-size: 20px;
+        color: var(--ion-color-primary);
+        flex-shrink: 0;
+      }
+      
+      span {
+        font-size: 14px;
+        color: var(--ion-color-dark);
+        font-weight: 600;
+      }
+    }
+    
+    .alert-closed-message {
+      background: var(--ion-color-light);
+      border-left: 4px solid var(--ion-color-medium);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      ion-icon {
+        font-size: 24px;
+        color: var(--ion-color-medium);
+        flex-shrink: 0;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ion-color-step-700);
+        font-weight: 500;
+      }
+    }
+
+    .assisting-message {
+      background: var(--ion-color-success-tint);
+      border-left: 4px solid var(--ion-color-success);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      
+      ion-icon {
+        font-size: 24px;
+        // color: var(--ion-color-success);
+        flex-shrink: 0;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 14px;
+        // color: var(--ion-color-success-shade);
+        font-weight: 500;
+      }
+    }
+    
+    ion-button {
+      margin-bottom: 8px;
+      height: 46px;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 12px;
+      
+      ion-icon {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+      
+      &[color="success"] {
+        --background: var(--ion-color-success);
+        --color: white;
+        
+        &:hover {
+          --background: var(--ion-color-success-shade);
+        }
+        
+        &[disabled] {
+          --background: var(--ion-color-success-tint);
+          opacity: 0.8;
+        }
+      }
+      
+      &[color="primary"] {
+        --background: var(--ion-color-primary);
+        --color: white;
+        
+        &:hover {
+          --background: var(--ion-color-primary-shade);
+        }
+      }
+      
+      &[color="danger"] {
+        --color: var(--ion-color-danger);
+        --background: transparent;
+        --border-color: var(--ion-color-danger);
+        --border-style: solid;
+        --border-width: 2px;
+        
+        &:hover {
+          --background: var(--ion-color-danger-tint);
+          --color: white;
+        }
+      }
+    }
+  }
+  
+  // ========== SECCIÓN DE OBSERVACIÓN ==========
+  .observation-section {
+    flex: 1;
+    min-height: 0;
+    
+    ion-item {
+      --background: transparent;
+      --border-color: var(--ion-color-step-200);
+      --border-style: solid;
+      --border-width: 1px;
+      --border-radius: 8px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      
+      ion-textarea {
+        --color: var(--ion-color-dark);
+        --placeholder-color: var(--ion-color-step-500);
+        font-size: 14px;
+        
+        &::part(native) {
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+}
+
+// ========== RESPONSIVE DESIGN ==========
+@media (max-width: 768px) {
+  .info-panel {
+    padding: 16px 20px 20px 20px;
+    
+    .alert-info-section {
+      margin-bottom: 14px;
+      
+      .alert-type {
+        span {
+          font-size: 15px;
+        }
+      }
+      
+      .alert-description p {
+        font-size: 13px;
+      }
+      
+      .alert-time, .alert-location {
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+    
+    .response-buttons {
+      margin-bottom: 14px;
+      
+      ion-button {
+        height: 42px;
+        font-size: 13px;
+      }
+    }
+  }
+  
+  .map-container .location-badge {
+    width: 260px;
+    max-width: 85%;
+  }
+}
+
+@media (max-height: 667px) {
+  // En pantallas pequeñas, ajustar las proporciones
+  .map-container {
+    flex: 5.5; // 55% mapa
+  }
+  
+  .info-panel {
+    flex: 4.5; // 45% info
+    padding: 12px 20px 16px 20px;
+    
+    .alert-status-section {
+      margin-bottom: 12px;
+    }
+    
+    .alert-info-section {
+      margin-bottom: 12px;
+      
+      .alert-type span {
+        font-size: 14px;
+      }
+      
+      .alert-description p {
+        font-size: 12px;
+      }
+      
+      .alert-time, .alert-location {
+        margin-bottom: 4px;
+        
+        span {
+          font-size: 11px;
+        }
+      }
+    }
+    
+    .contacts-section {
+      margin-bottom: 12px;
+      
+      .contacts-header {
+        .contacts-label {
+          font-size: 14px;
+        }
+        
+        .contacts-summary span {
+          font-size: 12px;
+        }
+      }
+      
+      .contacts-names span {
+        font-size: 12px;
+      }
+    }
+    
+    .response-buttons {
+      margin-bottom: 12px;
+      
+      ion-button {
+        height: 38px;
+        font-size: 12px;
+        
+        ion-icon {
+          font-size: 16px;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
+
+// ========== MODO OSCURO ==========
+@media (prefers-color-scheme: dark) {
+  .info-panel {
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.3);
+  }
+}
+
+// ========== ANIMACIONES ==========
+.response-buttons ion-button {
+  transition: all 0.2s ease;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.contacts-header {
+  transition: background-color 0.2s ease;
+}

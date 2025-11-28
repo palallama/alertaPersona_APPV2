@@ -1,0 +1,53 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login2</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">login2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+
+<ion-content [fullscreen]="true">
+
+  <div class="container">
+
+    <div class="c-flex">
+      <ion-img class="imagenLogo" [src]="appLogo" alt="{{appName}} logo"></ion-img>
+    </div>
+
+    <p class="title" >Iniciar Sesion</p>
+
+    <form [formGroup]="usuario">
+      <app-text-input 
+        formControlName="mail"
+        icono="send"
+        placeholder="mail@mail.com"
+        [mostarLabel]="false"
+        style="width: 100%; margin: 8px 0;"
+        [error]="(!(usuario.get('mail')?.valid!) && (this.usuario.get('mail')?.touched!))"
+      >
+      </app-text-input>
+      <app-password-input 
+        formControlName="password"
+        icono="lock-closed"
+        placeholder="contraseña"
+        [mostarLabel]="false"
+        style="width: 100%; margin: 8px 0;"
+        [error]="(!(usuario.get('password')?.valid!) && (this.usuario.get('password')?.touched!))"
+      >
+      </app-password-input>
+  
+      <app-general-button (botonClick)="enter()" [ngClass]="'danger'" label="Iniciar Sesion" style="width: 100%; margin: 64px 0;" ></app-general-button>
+    </form>
+
+    <a routerLink="/fp-mail" class="link">Olvide mi contraseña</a>
+    <p>Sos nuevo? <a routerLink="/sing-in" class="link">Registrate</a></p>
+
+  </div>
+
+</ion-content>

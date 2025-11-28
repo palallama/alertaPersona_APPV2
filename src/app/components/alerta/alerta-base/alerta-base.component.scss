@@ -1,0 +1,110 @@
+/* Backdrop oscuro para ambas alertas */
+.custom-alert-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenedor principal */
+.custom-alert-container {
+  background: white;
+  border-radius: 12px;
+  width: 280px;
+  max-width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.25s ease-out;
+  margin: 10px 0px !important;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.custom-alert-header {
+  padding: 20px 16px 8px;
+  text-align: center;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+}
+
+/* Contenido */
+.custom-alert-content {
+  padding: 0 16px 12px;
+  text-align: center;
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+/* Input (solo para input-alert) */
+.custom-alert-input {
+  padding: 0 16px 16px;
+
+  ion-input,
+  ion-textarea {
+    background: #f8f8f8;
+    border-radius: 8px;
+    --padding-start: 12px !important;
+    --padding-end: 12px !important;
+    --color: #333;
+    --placeholder-color: #999;
+    height: 48px;
+  }
+}
+
+/* Botones (compartido) */
+.custom-alert-buttons {
+  display: flex;
+  border-top: 1px solid #f0f0f0;
+
+  ion-button {
+    --border-radius: 0;
+    --box-shadow: none;
+    margin: 0;
+    flex: 1;
+    height: 48px;
+    font-weight: 500;
+
+    &:active {
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+/* Botón de cerrar (si se usa) */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  color: #999;
+  background: none;
+  border: none;
+  padding: 0;
+}

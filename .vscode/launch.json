@@ -1,0 +1,14 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open emit-alert.page.html",
+            "file": "d:\\Proyectos\\AlertaPersona\\V2\\Front-end\\alerta-persona\\src\\app\\views\\alert\\emit-alert\\emit-alert.page.html"
+        }
+    ]
+}

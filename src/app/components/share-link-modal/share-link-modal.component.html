@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" fill="clear">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-content">
+    
+    <!-- QR Code Section -->
+    <div class="qr-section">
+      <div class="qr-container" *ngIf="qrCodeDataURL">
+        <img [src]="qrCodeDataURL" alt="QR Code" class="qr-image">
+      </div>
+      <div class="qr-loading" *ngIf="!qrCodeDataURL">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Generando código QR...</p>
+      </div>
+      <p class="qr-description">
+        Escanea este código QR para acceder al enlace
+      </p>
+    </div>
+
+    <!-- Link Section -->
+    <div class="link-section">
+      <ion-item class="link-item">
+        <ion-label position="stacked">Enlace para compartir</ion-label>
+        <ion-input 
+          [value]="shareLink" 
+          readonly 
+          class="link-input">
+        </ion-input>
+      </ion-item>
+      
+      <div class="copy-feedback" *ngIf="copySuccess">
+        <ion-icon name="checkmark-circle" color="success"></ion-icon>
+        <span>¡Enlace copiado al portapapeles!</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions-section">
+      <ion-button 
+        expand="block" 
+        (click)="copyToClipboard()" 
+        [color]="copySuccess ? 'success' : 'primary'"
+        class="copy-button">
+        <ion-icon [name]="copySuccess ? 'checkmark' : 'copy'" slot="start"></ion-icon>
+        {{ copySuccess ? 'Copiado' : 'Copiar enlace' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

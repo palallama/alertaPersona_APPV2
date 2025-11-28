@@ -1,0 +1,174 @@
+.menu-content {
+  --background: var(--app-background-color, #ffffff);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  height: 100vh;
+  position: relative;
+}
+
+.menu-header {
+  padding: 20px;
+  padding-top: 40px;
+  
+  .menu-title {
+    display: flex;
+    align-items: center;
+    color: var(--ion-text-color);
+    font-size: 18px;
+    font-weight: 600;
+    
+    .back-icon {
+      font-size: 20px;
+      margin-right: 15px;
+      cursor: pointer;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.menu-items {
+  padding: 20px 0;
+  flex: 1;
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--ion-text-color, #333);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    &:hover {
+      background-color: var(--app-overlay-primary-light);
+    }
+
+    &.active {
+      background-color: var(--app-overlay-primary-medium);
+      border-left: 4px solid var(--ion-color-primary);
+      
+      .menu-icon,
+      .menu-text {
+        color: var(--ion-color-primary);
+        font-weight: 600;
+      }
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: var(--ion-color-primary);
+        box-shadow: 0 0 10px var(--app-shadow-primary);
+      }
+    }
+    
+    .menu-icon {
+      font-size: 20px;
+      margin-right: 15px;
+      width: 24px;
+      color: var(--ion-color-medium);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-text {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      flex: 1;
+      color: var(--ion-text-color);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-text-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      
+      .menu-text {
+        margin-bottom: 5px;
+      }
+      
+      .pending-badge {
+        background-color: var(--app-badge-color);
+        color: var(--ion-color-dark);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: 600;
+        align-self: flex-start;
+        
+        span {
+          color: var(--ion-color-dark);
+        }
+      }
+    }
+    
+    &.contact-item {
+      align-items: flex-start;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.menu-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  
+  .footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    
+    ion-button {
+      flex: 1;
+      height: 40px;
+      --border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      
+      &.support-btn {
+        --background: transparent;
+        --border-color: var(--ion-color-primary);
+        --color: var(--ion-color-primary);
+        
+        ion-icon {
+          color: var(--ion-color-primary);
+        }
+      }
+      
+      &.exit-btn {
+        --background: transparent;
+        --color: var(--ion-color-warning);
+        
+        ion-icon {
+          color: var(--ion-color-warning);
+        }
+      }
+    }
+  }
+}
+
+// Efectos de hover adicionales
+.menu-item:active {
+  background-color: var(--app-overlay-primary-strong);
+}
+
+// Estilos responsive
+@media (max-height: 600px) {
+  .menu-header {
+    padding-top: 20px;
+  }
+  
+  .menu-items .menu-item {
+    padding: 12px 20px;
+  }
+}

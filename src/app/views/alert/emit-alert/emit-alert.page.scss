@@ -1,0 +1,321 @@
+.emit-alert-content {
+  --background: var(--app-background-color);
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ========== MAPA DE FONDO ==========
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 40vh; // 60% de la pantalla para el mapa
+  z-index: 1;
+  
+  app-google-maps {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  // Mensaje de carga de ubicación
+  .loading-location {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ion-color-step-100);
+    
+    p {
+      font-size: 16px;
+      color: var(--ion-color-step-600);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+  }
+  
+  // Badge de ubicación sobre el mapa - solo posicionamiento
+  .location-badge {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    max-width: 80%;
+    z-index: 10;
+  }
+}
+
+// ========== PANEL DE INFORMACIÓN FIJO ==========
+.alert-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40vh; // 40% de la pantalla fijo
+  background: var(--app-background-color);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 16px var(--ion-color-step-200);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  
+  // Ya no hay estados expandidos, siempre visible completo
+  // Removemos las transiciones y estados expandidos
+  
+  // Handle visual (opcional, ya no funcional)
+  .footer-handle {
+    padding: 12px 0 8px 0;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    
+    .handle-bar {
+      width: 40px;
+      height: 4px;
+      background: var(--ion-color-step-400);
+      border-radius: 2px;
+    }
+  }
+
+  // Badge de estado en el footer
+  .footer-badge {
+    display: flex;
+    justify-content: center;
+    padding: 8px 24px 16px 24px;
+    flex-shrink: 0;
+  }
+  
+  // Contenido del footer - sin scroll, uso completo del espacio
+  .footer-content {
+    flex: 1;
+    padding: 0 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; // Sin scroll
+    
+    // Información de la alerta
+    .alert-info {
+      text-align: center;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+      
+      h1 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        color: var(--ion-color-dark);
+        line-height: 1.2;
+      }
+      
+      p {
+        font-size: 14px;
+        color: var(--ion-color-step-600);
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+    
+    // Botones de acción
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+      
+      .cancel-button {
+        flex: 1;
+        --color: var(--ion-color-dark);
+        --background: transparent;
+        --border-color: var(--ion-color-step-300);
+        --border-style: solid;
+        --border-width: 1px;
+        height: 46px;
+        font-weight: 500;
+        font-size: 14px;
+        border-radius: 8px;
+        
+        ion-icon {
+          margin-right: 6px;
+          font-size: 16px;
+        }
+        
+        &:hover {
+          --background: var(--ion-color-step-100);
+        }
+      }
+      
+      .resolve-button {
+        flex: 1;
+        --background: var(--ion-color-success);
+        --color: white;
+        height: 46px;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 8px;
+        
+        &:hover {
+          --background: var(--ion-color-success-shade);
+        }
+      }
+    }
+    
+    // Sección de contactos
+    .contacts-section {
+      flex-shrink: 0;
+      
+      .contacts-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 12px;
+        
+        ion-icon {
+          font-size: 20px;
+          color: var(--ion-color-dark);
+          flex-shrink: 0;
+        }
+        
+        .contacts-title {
+          flex: 1;
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--ion-color-dark);
+        }
+        
+        .contacts-status-btn {
+          --background: var(--ion-color-primary);
+          --color: white;
+          --border-radius: 16px;
+          --padding-start: 12px;
+          --padding-end: 12px;
+          height: 28px;
+          font-size: 11px;
+          font-weight: 600;
+          min-width: 55px;
+          
+          &:hover {
+            --background: var(--ion-color-primary-shade);
+          }
+        }
+      }
+      
+      .contacts-names {
+        padding-left: 32px;
+        
+        span {
+          font-size: 14px;
+          color: var(--ion-color-step-600);
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+}
+
+// ========== RESPONSIVE DESIGN ==========
+@media (max-width: 768px) {
+  .alert-footer {
+    .footer-content {
+      padding: 0 20px 20px 20px;
+      
+      .alert-info {
+        margin-bottom: 18px;
+        
+        h1 {
+          font-size: 20px;
+        }
+        
+        p {
+          font-size: 13px;
+        }
+      }
+      
+      .action-buttons {
+        margin-bottom: 18px;
+        
+        .cancel-button, .resolve-button {
+          height: 42px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  
+  // Ajustar solo el ancho del badge en móviles
+  .map-container .location-badge {
+    width: 260px;
+    max-width: 85%;
+  }
+}
+
+@media (max-height: 667px) {
+  // En pantallas pequeñas, ajustar las proporciones
+  .map-container {
+    bottom: 45vh; // 55% mapa, 45% info
+  }
+  
+  .alert-footer {
+    height: 45vh;
+    
+    .footer-content {
+      .alert-info {
+        margin-bottom: 12px;
+        
+        h1 {
+          font-size: 18px;
+          margin-bottom: 6px;
+        }
+        
+        p {
+          font-size: 12px;
+        }
+      }
+      
+      .action-buttons {
+        margin-bottom: 12px;
+        
+        .cancel-button, .resolve-button {
+          height: 38px;
+          font-size: 12px;
+        }
+      }
+      
+      .contacts-section {
+        .contacts-header {
+          margin-bottom: 8px;
+          
+          ion-icon {
+            font-size: 18px;
+          }
+          
+          .contacts-title {
+            font-size: 14px;
+          }
+          
+          .contacts-status-btn {
+            height: 26px;
+            font-size: 10px;
+          }
+        }
+        
+        .contacts-names span {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+// ========== MODO OSCURO ==========
+@media (prefers-color-scheme: dark) {
+  .alert-footer {
+    // Los colores del tema ya se ajustan automáticamente con las variables CSS de Ionic
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.3);
+  }
+}

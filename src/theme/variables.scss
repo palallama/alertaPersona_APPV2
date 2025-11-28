@@ -1,2 +1,89 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+:root {
+  /** Primary colors - Alerta Persona Theme **/
+  --ion-color-primary: #4facfe;
+  --ion-color-primary-rgb: 79, 172, 254;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #459ee0;
+  --ion-color-primary-tint: #61b4fe;
+
+  /** Secondary colors - Alert gradient **/
+  --ion-color-secondary: #00f2fe;
+  --ion-color-secondary-rgb: 0, 242, 254;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #00d5e0;
+  --ion-color-secondary-tint: #1af3fe;
+
+  /** Success colors - Enhanced green **/
+  --ion-color-success: #1dd1a1;
+  --ion-color-success-rgb: 29, 209, 161;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #1ab88e;
+  --ion-color-success-tint: #34d6aa;
+
+  /** Warning colors - Alert indicators **/
+  --ion-color-warning: #ff6b6b;
+  --ion-color-warning-rgb: 255, 107, 107;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #e05e5e;
+  --ion-color-warning-tint: #ff7a7a;
+
+  /** Info colors - Blue information **/
+  --ion-color-info: #3498db;
+  --ion-color-info-rgb: 52, 152, 219;
+  --ion-color-info-contrast: #ffffff;
+  --ion-color-info-contrast-rgb: 255, 255, 255;
+  --ion-color-info-shade: #2e86c1;
+  --ion-color-info-tint: #5dade2;
+
+  /** Disabled colors - Gray disabled state **/
+  --ion-color-disabled: #95a5a6;
+  --ion-color-disabled-rgb: 149, 165, 166;
+  --ion-color-disabled-contrast: #ffffff;
+  --ion-color-disabled-contrast-rgb: 255, 255, 255;
+  --ion-color-disabled-shade: #839192;
+  --ion-color-disabled-tint: #a1b1b2;
+
+  /** Custom app colors **/
+  --app-badge-color: #00ff88;
+  --app-badge-color-rgb: 0, 255, 136;
+  --app-shadow-primary: rgba(79, 172, 254, 0.3);
+  --app-shadow-success: rgba(29, 209, 161, 0.3);
+  --app-shadow-warning: rgba(255, 107, 107, 0.3);
+  
+  /** Background colors **/
+  --app-background-color: #ffffff;
+  --app-background-color-rgb: 255, 255, 255;
+  
+  /** Background overlays **/
+  --app-overlay-light: rgba(255, 255, 255, 0.1);
+  --app-overlay-medium: rgba(255, 255, 255, 0.2);
+  --app-overlay-primary-light: rgba(79, 172, 254, 0.1);
+  --app-overlay-primary-medium: rgba(79, 172, 254, 0.15);
+  --app-overlay-primary-strong: rgba(79, 172, 254, 0.2);
+}
+
+/** Dark mode overrides **/
+@media (prefers-color-scheme: dark) {
+  :root {
+    /** Dark mode background **/
+    --app-background-color: #1e1e1e;
+    --app-background-color-rgb: 30, 30, 30;
+    
+    /** Adjust shadows for dark mode **/
+    --app-shadow-primary: rgba(79, 172, 254, 0.4);
+    --app-shadow-success: rgba(29, 209, 161, 0.4);
+    --app-shadow-warning: rgba(255, 107, 107, 0.4);
+    
+    /** Dark mode overlays **/
+    --app-overlay-light: rgba(0, 0, 0, 0.1);
+    --app-overlay-medium: rgba(0, 0, 0, 0.2);
+  }
+}

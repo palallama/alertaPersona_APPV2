@@ -1,0 +1,30 @@
+<div class="location-display" [class.compact]="isCompact" [class.overlay]="isOverlay">
+  
+  <!-- Ícono de ubicación -->
+  <div class="location-icon">
+    <ion-icon name="location-outline"></ion-icon>
+  </div>
+  
+  <!-- Información de ubicación -->
+  <div class="location-info">
+    
+    <!-- Título -->
+    <div class="location-title">
+      {{ title }}
+    </div>
+    
+    <!-- Dirección -->
+    <div class="location-address">
+      {{ getDisplayAddress() }}
+    </div>
+    
+    <!-- Hora (opcional) -->
+    @if (showTime) {
+      <div class="location-time">
+        {{ getFormattedTime() }}
+      </div>
+    }
+    
+  </div>
+  
+</div>

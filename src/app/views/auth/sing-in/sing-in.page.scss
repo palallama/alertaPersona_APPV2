@@ -1,0 +1,30 @@
+
+.title{
+    color: #4095D4;
+    font-size: 48px;
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+.imagenLogo{
+    margin-top: 20px;
+    width: 169px;
+    height: 169px;
+}
+
+.container {
+    margin: 0 16px;
+    height: 100vh;
+}
+
+.c-flex{
+    display: flex;
+    justify-content: center;
+}
+
+.linkLogin {
+    justify-content: center;
+    display: flex;
+    margin-top: 16px;
+    padding-bottom: 16px;
+}

@@ -1,0 +1,35 @@
+<div class="form-group">
+  @if (label) {
+    <label for="input">
+      {{label}}
+      @if (required){
+        <span class="requerido">  *</span>
+      }
+      @if (mostrarAclaracion) {
+        <span class="aclaracion">{{aclaracion}}</span>
+      }
+    </label>
+  }
+
+  <select 
+    class="form-control"
+    [ngClass]="{ 'is-invalid': showError }"
+    [(ngModel)]="selectedValue"
+    (ngModelChange)="onValueChange($event)"
+    (blur)="onBlur()"
+    [disabled]="disabled"
+    [required]="required"
+  >
+    <option [ngValue]="null" disabled>{{ placeholder }}</option>
+    @for (option of options; track option) {
+      <option [ngValue]="getOptionValue(option)">
+        {{ getOptionLabel(option) }}
+      </option>
+    }
+  </select>
+  @if (showError) {
+    <div class="invalid-feedback">
+      {{ errorMessage }}
+    </div>
+  }
+</div>

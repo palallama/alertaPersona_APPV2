@@ -1,27 +1,34 @@
 
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
+import { Component, OnInit, inject } from '@angular/core';
+import { IonApp, IonSplitPane, IonMenu, IonRouterOutlet } from '@ionic/angular/standalone';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { StorageService } from './core/services/storage.service';
+import { NotificacionService } from './core/services/notificacion.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet],
+  imports: [
+    IonApp,
+    IonSplitPane,
+    IonMenu,
+    IonRouterOutlet,
+    SideMenuComponent
+  ],
 })
-export class AppComponent {
-  public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+export class AppComponent implements OnInit {
+  private notificacionService = inject(NotificacionService);
+  private storageService = inject(StorageService);
+
   constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+    // Puedes agregar iconos específicos aquí si los necesitas
+  }
+
+  async ngOnInit() {
+    console.log("appcomponent - iniciarNotificaciones")
+    // this.notificacionService.iniciarNotificaciones();
+    // Inicializar el storage al iniciar la aplicación
+    await this.storageService.init();
   }
 }
