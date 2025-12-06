@@ -25,6 +25,7 @@ import { AlertaService } from 'src/app/core/services/alerta.service';
 import { AlertaHistoriaService } from 'src/app/core/services/alerta-historia.service';
 import { UsuarioLogueado } from 'src/app/core/interfaces/usuario';
 import { UserStorageService } from 'src/app/core/services/user-storage';
+import { AlertasNotificacionesComponent } from 'src/app/components/alertas-notificaciones/alertas-notificaciones.component';
 
 
 @Component({
@@ -48,6 +49,7 @@ import { UserStorageService } from 'src/app/core/services/user-storage';
     IonRefresherContent,
     CommonModule, 
     FormsModule,
+    AlertasNotificacionesComponent,
     FooterComponent
   ]
 })

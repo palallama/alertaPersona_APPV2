@@ -39,6 +39,7 @@ import { ShareLinkModalComponent } from '../../../components/share-link-modal/sh
 import { ContactoService } from 'src/app/core/services/contacto';
 import { UserStorageService } from 'src/app/core/services/user-storage';
 import { finalize, firstValueFrom } from 'rxjs';
+import { AlertasNotificacionesComponent } from 'src/app/components/alertas-notificaciones/alertas-notificaciones.component';
 
 @Component({
   selector: 'app-contacts',
@@ -47,6 +48,7 @@ import { finalize, firstValueFrom } from 'rxjs';
   standalone: true,
   providers: [ModalController, ToastController],
   imports: [
+    AlertasNotificacionesComponent,
     IonContent,
     IonHeader,
     IonTitle,

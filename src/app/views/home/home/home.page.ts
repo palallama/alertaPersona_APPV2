@@ -2,9 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButtons, IonMenuButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonAvatar, IonNote } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowForward } from 'ionicons/icons';
+import { arrowForward, notifications, location, time } from 'ionicons/icons';
 import { AlertaService } from 'src/app/core/services/alerta.service';
 import { LocalizacionService } from 'src/app/core/services/localizacion.service';
 import { NotificacionService } from 'src/app/core/services/notificacion.service';
@@ -12,19 +12,43 @@ import { DebugService } from 'src/app/core/services/debug.service';
 import { emitirAlerta } from 'src/app/core/common/alerta';
 import { appLogo, appTitle } from 'src/app/core/constants';
 import { AlertService } from 'src/app/components/alerta/alerta.service';
+import { AlertaContactoService } from 'src/app/core/services/alerta-contacto.service';
+import { Alerta } from 'src/app/core/interfaces/alerta';
+import { AlertasNotificacionesComponent } from 'src/app/components/alertas-notificaciones/alertas-notificaciones.component';
+import { getTimeElapsed } from 'src/app/utils/datetime-utils';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, CommonModule, FormsModule]
+  imports: [
+    IonContent, 
+    IonHeader, 
+    IonTitle, 
+    IonToolbar, 
+    IonButtons, 
+    IonMenuButton, 
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonNote,
+    IonIcon,
+    CommonModule, 
+    FormsModule,
+    AlertasNotificacionesComponent
+  ]
 })
 export class HomePage implements OnInit {
   alertaService = inject(AlertaService);
   localizacionService = inject(LocalizacionService);
   notificacionService = inject(NotificacionService);
   private debugService = inject(DebugService); // Inyectar para inicializar
+  alertaContactoService = inject(AlertaContactoService);
 
   private alerts = inject(AlertService);
 
@@ -41,11 +65,16 @@ export class HomePage implements OnInit {
   cancelThreshold: number = 60; // Distancia para cancelar
   buttonElement: HTMLElement | null = null;
 
+  // Alertas de contactos
+  alertasContactos = this.alertaContactoService.alertasActivas;
+
   constructor() {
-    addIcons({ arrowForward });
+    addIcons({ arrowForward, notifications, location, time });
   }
 
   ngOnInit() {
+    // Cargar alertas de contactos
+    this.alertaContactoService.iniciarActualizacionAutomatica(30000).subscribe();
   }
 
   onTouchStart(event: TouchEvent) {
@@ -177,5 +206,18 @@ export class HomePage implements OnInit {
       alert('Error al activar la alerta. Intenta nuevamente.');
     }
   }
+  // Métodos para alertas de contactos
+  verAlerta(alerta: Alerta) {
+    this.alertaContactoService.marcarAlertaComoVista(alerta.id!).subscribe();
+    this.router.navigate(['/assist-alert', alerta.id]);
+  }
+
+  getTiempoTranscurrido(timestamp: Date): string {
+    return getTimeElapsed(timestamp);
+  }
+
+  getNombreCompleto(alerta: Alerta): string {
+    return `${alerta.usuario?.nombre} ${alerta.usuario?.apellido}`;
+  } 
 
 }

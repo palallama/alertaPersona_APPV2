@@ -4,6 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ appTitle }}</ion-title>
+    <ion-buttons slot="end">
+      <app-alertas-notificaciones></app-alertas-notificaciones>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -37,4 +40,43 @@
       En caso de emergencia Deslizar el botón
     </div>
   </div>
+
+  <!-- Sección de Alertas Activas de Contactos -->
+  @if (alertasContactos().length > 0) {
+    <div class="alertas-contactos-section">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="notifications" color="danger"></ion-icon>
+            Alerta Activa de tus Contactos
+          </ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content>
+          <ion-list lines="full">
+            @for (alerta of alertasContactos().slice(0, 1); track alerta.id) {
+              <ion-item 
+                button
+                (click)="verAlerta(alerta)"
+                class="alerta-contacto-item">
+                
+                <ion-label>
+                  <h2>{{ getNombreCompleto(alerta) }}</h2>
+                  <p class="alerta-estado">
+                    <ion-icon name="notifications" color="danger" size="small"></ion-icon>
+                    En emergencia
+                  </p>
+                </ion-label>
+                
+                <ion-note slot="end" class="alerta-tiempo">
+                  <ion-icon name="time" size="small"></ion-icon>
+                  {{ getTiempoTranscurrido(alerta.fchEmision!) }}
+                </ion-note>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
 </ion-content>

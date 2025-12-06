@@ -1,0 +1,62 @@
+<div class="alertas-notificaciones">
+  <ion-button 
+    fill="clear" 
+    class="notification-button"
+    (click)="togglePopover($event)">
+    <ion-icon 
+      slot="icon-only" 
+      [name]="alertasCount() > 0 ? 'notifications' : 'notifications-outline'"
+      [class.has-alerts]="alertasCount() > 0">
+    </ion-icon>
+    <ion-badge 
+      *ngIf="alertasCount() > 0" 
+      class="notification-badge"
+      color="danger">
+      {{ alertasCount() }}
+    </ion-badge>
+  </ion-button>
+
+  <ion-popover 
+    [isOpen]="isPopoverOpen" 
+    (didDismiss)="closePopover()"
+    alignment="end"
+    side="bottom">
+    <ng-template>
+      <ion-content class="popover-content">
+        <div class="popover-header">
+          <h3>Alertas Activas</h3>
+          <ion-text color="medium">{{ alertasCount() }} {{ alertasCount() === 1 ? 'alerta' : 'alertas' }}</ion-text>
+        </div>
+
+        <ion-list *ngIf="alertasCount() > 0; else noAlertas" lines="full">
+          <ion-item 
+            *ngFor="let alerta of alertasActivas()" 
+            button
+            (click)="verAlerta(alerta)"
+            class="alerta-item">
+            
+            <ion-label>
+              <h3>{{ getNombreCompleto(alerta) }}</h3>
+              <p class="alerta-tipo">
+                <ion-icon name="notifications" color="danger"></ion-icon>
+                Alerta activa
+              </p>
+            </ion-label>
+            
+            <ion-note slot="end" class="tiempo">
+              <ion-icon name="time" size="small"></ion-icon>
+              {{ getTiempoTranscurrido(alerta.fchEmision!) }}
+            </ion-note>
+          </ion-item>
+        </ion-list>
+
+        <ng-template #noAlertas>
+          <div class="no-alertas">
+            <ion-icon name="notifications-outline" size="large"></ion-icon>
+            <p>No hay alertas activas</p>
+          </div>
+        </ng-template>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+</div>

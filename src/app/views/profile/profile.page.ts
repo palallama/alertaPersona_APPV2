@@ -27,6 +27,7 @@ import { UserStorageService } from 'src/app/core/services/user-storage';
 import { AlertService } from 'src/app/components/alerta/alerta.service';
 import { AuthService } from 'src/app/core/services/auth';
 import { Router } from '@angular/router';
+import { AlertasNotificacionesComponent } from 'src/app/components/alertas-notificaciones/alertas-notificaciones.component';
 
 
 @Component({
@@ -48,6 +49,7 @@ import { Router } from '@angular/router';
     FooterComponent,
     PersonalInfoComponent,
     PreferencesComponent,
+    AlertasNotificacionesComponent,
     PadZeroPipe,
   ]
 })

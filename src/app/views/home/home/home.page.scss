@@ -344,3 +344,97 @@
     transition: all 0.3s ease;
   }
 }
+// Estilos para la sección de alertas de contactos
+.alertas-contactos-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 16px;
+  z-index: 10;
+  max-height: 45vh;
+  overflow: hidden;
+
+  ion-card {
+    margin: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    ion-card-header {
+      padding-bottom: 8px;
+
+      ion-card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+        font-weight: 600;
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+    }
+
+    ion-card-content {
+      padding: 0;
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      ion-list {
+        background: transparent;
+        margin: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .alerta-contacto-item {
+        --padding-start: 12px;
+        --padding-end: 12px;
+        --padding-top: 12px;
+        --padding-bottom: 12px;
+        cursor: pointer;
+
+        &:hover {
+          --background: var(--ion-color-light);
+        }
+
+        ion-label {
+          h2 {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 16px;
+            color: var(--ion-text-color);
+          }
+
+          p {
+            font-size: 13px;
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            &.alerta-estado {
+              color: var(--ion-color-danger);
+              font-weight: 500;
+            }
+          }
+        }
+
+        .alerta-tiempo {
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex-direction: column;
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+}

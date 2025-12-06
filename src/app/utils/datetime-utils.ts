@@ -40,6 +40,23 @@ export function getTimeAgo(fecha: Date): string {
     return `hace ${diffDays} días`;
 }
 
+// Formato corto para tiempo transcurrido (ej: "5m", "2h", "3d")
+export function getTimeElapsed(timestamp: Date): string {
+  const ahora = new Date();
+  const fecha = new Date(timestamp);
+  const diffMs = ahora.getTime() - fecha.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  
+  if (diffMins < 1) return 'Ahora';
+  if (diffMins < 60) return `${diffMins} min`;
+  
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h`;
+  
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}d`;
+}
+
 export function getFechaLocal(fecha: string | Date): Date {
   // Si la fecha es string en formato ISO, conviértela a Date y ajusta la zona
   const d = new Date(fecha);

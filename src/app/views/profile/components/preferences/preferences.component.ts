@@ -135,7 +135,7 @@ export class PreferencesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Verifica los permisos de ubicación del dispositivo
+   * Verifica y solicita permisos de ubicación del dispositivo
    */
   async checkLocationPermissions() {
     try {
@@ -159,11 +159,11 @@ export class PreferencesComponent implements OnInit, OnChanges {
             break;
           case 'denied':
             this.locationPermissionStatus = 'Permisos denegados';
-            this.locationButtonText = 'Solicitar';
+            this.locationButtonText = 'Ir a configuración';
             break;
           case 'prompt':
-            this.locationPermissionStatus = 'Permisos pendientes';
-            this.locationButtonText = 'Solicitar';
+            // Si está en estado prompt, solicitar directamente
+            this.requestLocationPermission();
             break;
         }
       } else {
@@ -172,15 +172,15 @@ export class PreferencesComponent implements OnInit, OnChanges {
       }
     } catch (error) {
       console.error('Error verificando permisos de ubicación:', error);
-      this.locationPermissionStatus = 'Error verificando permisos';
-      this.locationButtonText = 'Reintentar';
+      // Si hay error verificando, intentar solicitar directamente
+      this.requestLocationPermission();
     }
   }
 
   /**
    * Solicita permisos de ubicación al usuario
    */
-  private requestLocationPermission() {
+  requestLocationPermission() {
     this.locationPermissionStatus = 'Solicitando permisos...';
     this.locationButtonText = 'Solicitando';
 
@@ -194,7 +194,7 @@ export class PreferencesComponent implements OnInit, OnChanges {
         switch (error.code) {
           case error.PERMISSION_DENIED:
             this.locationPermissionStatus = 'Permisos denegados por el usuario';
-            this.locationButtonText = 'Denegado';
+            this.locationButtonText = 'Ir a configuración';
             break;
           case error.POSITION_UNAVAILABLE:
             this.locationPermissionStatus = 'Ubicación no disponible';
@@ -214,7 +214,7 @@ export class PreferencesComponent implements OnInit, OnChanges {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 300000
+        maximumAge: 0 // No usar caché, solicitar siempre ubicación fresca
       }
     );
   }
