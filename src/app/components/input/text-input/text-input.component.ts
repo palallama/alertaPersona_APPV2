@@ -57,7 +57,11 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   }
 
   writeValue(value: any) {
-    this.value = value;
+    this.value = value || '';
+    // Actualizar el input nativo del DOM si ya está disponible
+    if (this.input?.nativeElement) {
+      this.input.nativeElement.value = this.value;
+    }
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import {
@@ -20,6 +20,7 @@ export class NotificacionService {
   private route = inject(Router);
   private http = inject(HttpClient);
   private storageService = inject(StorageService);
+  private ngZone = inject(NgZone);
 
 
   async iniciarNotificaciones() {
@@ -81,10 +82,21 @@ export class NotificacionService {
       console.log(notification);
       // alert('Registration error: ' + JSON.stringify(notification));
 
-      if (notification.notification.data.motivo === 'A'){
-        this.route.navigateByUrl('/assist-alert/' + notification.notification.data.alerta);
-      }
+      // Ejecutar la navegación dentro de NgZone y con un pequeño delay
+      // para asegurar que la app esté completamente lista
+      this.ngZone.run(() => {
+        setTimeout(() => {
+          // Alerta emitida
+          if (notification.notification.data.motivo === 'A'){
+            this.route.navigateByUrl('/assist-alert/' + notification.notification.data.alerta);
+          }
 
+          // Solicitud de contacto
+          if (notification.notification.data.motivo === 'S'){
+            this.route.navigateByUrl('/contacts');
+          }
+        }, 100);
+      });
     });
   }
 

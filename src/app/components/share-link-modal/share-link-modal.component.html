@@ -45,14 +45,25 @@
 
     <!-- Action Buttons -->
     <div class="actions-section">
+      <!-- Botón de compartir -->
       <ion-button 
+        expand="block" 
+        (click)="share()" 
+        color="primary"
+        class="share-button">
+        <ion-icon name="share-social" slot="start"></ion-icon>
+        Compartir enlace
+      </ion-button>
+
+      <!-- Botón de copiar (oculto, comentado para uso futuro) -->
+      <!-- <ion-button 
         expand="block" 
         (click)="copyToClipboard()" 
         [color]="copySuccess ? 'success' : 'primary'"
         class="copy-button">
         <ion-icon [name]="copySuccess ? 'checkmark' : 'copy'" slot="start"></ion-icon>
         {{ copySuccess ? 'Copiado' : 'Copiar enlace' }}
-      </ion-button>
+      </ion-button> -->
     </div>
   </div>
 </ion-content>

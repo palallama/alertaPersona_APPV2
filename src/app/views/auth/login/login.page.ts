@@ -10,6 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AlertService } from 'src/app/components/alerta/alerta.service';
 import { StorageKeys } from 'src/app/core/interfaces/storage';
 import { PasswordInputComponent } from 'src/app/components/input/password-input/password-input.component';
+import { ContactoService } from 'src/app/core/services/contacto';
 import { TextInputComponent } from 'src/app/components/input/text-input/text-input.component';
 import { appLogo, appName } from 'src/app/core/constants';
 import { AuthService } from 'src/app/core/services/auth';
@@ -42,6 +43,7 @@ export class LoginPage implements ViewWillEnter, ViewWillLeave, OnInit{
   private storageService = inject(StorageService);
   private router = inject(Router);
   private alerts = inject(AlertService);
+  private contactoService = inject(ContactoService);
   appLogo = appLogo;
   appName = appName;
 
@@ -61,6 +63,8 @@ export class LoginPage implements ViewWillEnter, ViewWillLeave, OnInit{
   }
 
   ionViewWillLeave() {
+    // Limpiar el formulario al salir de la vista
+    this.resetForm();
     // Quitar el foco de cualquier elemento activo para evitar el warning de aria-hidden
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -68,7 +72,10 @@ export class LoginPage implements ViewWillEnter, ViewWillLeave, OnInit{
   }
 
   resetForm(){
-    this.usuario.reset({mail: "", password: ""})
+    this.usuario.reset();
+    this.usuario.patchValue({mail: "", password: ""});
+    this.usuario.markAsUntouched();
+    this.usuario.markAsPristine();
     this.storageService.remove(StorageKeys.TOKEN_NOTIFICACION);
   }
   async checkUsuario(){
@@ -81,11 +88,18 @@ export class LoginPage implements ViewWillEnter, ViewWillLeave, OnInit{
 
     if (this.usuario.valid){
       this.authService.iniciarSesion(this.usuario.value.mail!, this.usuario.value.password!).subscribe({
-        next: (res:any) => {
+        next: async (res:any) => {
           this.storageService.set(StorageKeys.TOKEN, res.access_token);
           // this.storageService.set(StorageKeys.TOKEN, "test");
-          this.setTokenNotificacion();
-          this.router.navigateByUrl("/");
+          await this.setTokenNotificacion();
+          
+          // Verificar si hay código de invitación pendiente
+          const codigoInvitacion = await this.storageService.get(StorageKeys.CODIGO_INVITACION);
+          if (codigoInvitacion) {
+            await this.aceptarInvitacionPendiente(codigoInvitacion, res.usuario.id);
+          } else {
+            this.router.navigateByUrl("/");
+          }
         },
         error: (error:any) => {
           console.log(error)
@@ -106,13 +120,32 @@ export class LoginPage implements ViewWillEnter, ViewWillLeave, OnInit{
     }
   }
 
-  mostrarError(error:any) {
+  async aceptarInvitacionPendiente(codigo: string, usuarioId: string) {
+    try {
+      await this.contactoService.aceptarInvitacion(codigo, usuarioId).toPromise();
+      // Limpiar el código de storage
+      await this.storageService.remove(StorageKeys.CODIGO_INVITACION);
+      
+      await this.alerts.showAlert({
+        title: '¡Invitación aceptada!',
+        message: 'Has aceptado la invitación exitosamente.'
+      });
+      
+      this.router.navigateByUrl("/tabs/contactos");
+    } catch (error) {
+      console.error('Error al aceptar invitación:', error);
+      await this.storageService.remove(StorageKeys.CODIGO_INVITACION);
+      this.router.navigateByUrl("/");
+    }
+  }
+
+  async mostrarError(error:any) {
     console.error('Error en el inicio de sesión:', error);
     let message = 'Error al iniciar sesión. Por favor, inténtelo de nuevo más tarde.';
     if (error.status === 401) {
       message = 'Credenciales incorrectas. Por favor, verifique su correo electrónico y contraseña.';
     }
-    this.alerts.showAlert({
+    await this.alerts.showAlert({
       title: 'Error',
       message: message,
       buttons: [

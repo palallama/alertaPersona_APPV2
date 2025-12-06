@@ -4,7 +4,7 @@ import { Usuario } from "./usuario";
 
 export interface Alerta {
 
-    id?: string,
+    id?: number,
     usuarioId?: string,
     usuario?: Usuario,
     latitud: number,

@@ -67,4 +67,12 @@ export const routes: Routes = [
     path: 'change-password',
     loadComponent: () => import('./views/auth/change-password/change-password.page').then( m => m.ChangePasswordPage)
   },
+  {
+    path: 'invitacion/:codigo',
+    loadComponent: () => import('./views/invitacion/verificar-invitacion/verificar-invitacion.page').then( m => m.VerificarInvitacionPage)
+  },
+  {
+    path: 'verificar-invitacion/:codigo',
+    loadComponent: () => import('./views/invitacion/verificar-invitacion/verificar-invitacion.page').then( m => m.VerificarInvitacionPage)
+  },
 ];

@@ -32,7 +32,7 @@ export class AsistenteService {
     return this.http.delete(`${this.URL_COMPLETA}/asistente/${alertaId}/${usuarioId}`);
   }
 
-  getByAlertaId(alertaId:string) : Observable<Asistente[]> {
+  getByAlertaId(alertaId:number) : Observable<Asistente[]> {
     return this.http.get<Asistente[]>(`${this.URL_COMPLETA}/asistente/alerta/${alertaId}`).pipe(
       map((asistentes: Asistente[]) => asistentes || [])
     );

@@ -1,0 +1,67 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid class="verificacion-container">
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="min-height: 100%;">
+      <ion-col size="12" size-md="8" size-lg="6">
+        
+        <!-- Cargando -->
+        <div *ngIf="verificando" class="verificacion-card ion-text-center">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+          <ion-text>
+            <h2>Verificando invitación...</h2>
+            <p>Por favor espera un momento</p>
+          </ion-text>
+        </div>
+
+        <!-- Invitación válida -->
+        <div *ngIf="!verificando && resultado?.valida" class="verificacion-card ion-text-center success">
+          <ion-icon name="checkmark-circle-outline" color="success" size="large"></ion-icon>
+          <ion-text color="success">
+            <h1>¡Invitación válida!</h1>
+          </ion-text>
+          <ion-text>
+            <p class="invitador-info" *ngIf="resultado.invitador">
+              <strong>{{ resultado.invitador.nombre }} {{ resultado.invitador.apellido }}</strong> te ha invitado a unirte a AlertaPersona.
+            </p>
+            <p class="mensaje">{{ resultado.mensaje }}</p>
+            
+            <!-- Usuario con sesión activa -->
+            <p class="redireccion-info" *ngIf="usuarioLogueado">
+              Aceptando invitación...
+            </p>
+            
+            <!-- Usuario sin sesión -->
+            <p class="redireccion-info" *ngIf="!usuarioLogueado">
+              Serás redirigido al login en unos momentos...
+            </p>
+          </ion-text>
+          
+          <!-- Botón solo para usuarios sin sesión -->
+          <app-general-button 
+            *ngIf="!usuarioLogueado"
+            (click)="irALoginORegistro()" 
+            [label]="'Ir al Login'"
+            class="ion-margin-top">
+          </app-general-button>
+        </div>
+
+        <!-- Invitación inválida o expirada -->
+        <div *ngIf="!verificando && resultado && !resultado.valida" class="verificacion-card ion-text-center error">
+          <ion-icon name="close-circle-outline" color="danger" size="large"></ion-icon>
+          <ion-text color="danger">
+            <h1>Invitación no válida</h1>
+          </ion-text>
+          <ion-text>
+            <p class="mensaje">{{ resultado.mensaje }}</p>
+            <p>Esta invitación puede haber expirado o ya fue utilizada.</p>
+          </ion-text>
+          <app-general-button 
+            (click)="volverAlLogin()" 
+            [label]="'Volver al Login'"
+            class="ion-margin-top">
+          </app-general-button>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

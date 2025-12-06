@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AlertButton } from '../alerta';
 import { AlertaBaseComponent } from '../alerta-base/alerta-base.component';
-import { TextInputComponent } from '../../input/text-input/text-input.component';
 import { IonButton } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TextInputComponent } from '../../input/text-input/text-input.component';
+import { TextareaInputComponent } from '../../input/textarea-input/textarea-input.component';
 
 @Component({
   selector: 'app-alerta-input',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     IonButton,
-    TextInputComponent
+    TextareaInputComponent,
   ]
 })
 export class AlertaInputComponent extends AlertaBaseComponent {

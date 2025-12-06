@@ -21,9 +21,8 @@
           <ion-icon class="icon" name="{{icono}}"></ion-icon>
         </div>
       }
-      <input #input
-        [value]="value || ''"
-        [type]="inputType"
+      <textarea #input
+        [value]="defaultValue"
 
         oninput="javascript: if (this.maxLength > 0) { if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); }"
         [maxLength]="(largoMaximo)"
@@ -33,15 +32,21 @@
         [readOnly]="readOnly"
         [disabled]="disabled"
         [required]="required"
+
+        [rows]="xrows"
+        [cols]="xcols"
+        [autofocus]="autofocus"
   
-        style="width: 100%;"
+        [style]="'width: 100%; height: ' + textareaHeight + ';'"
+        
   
         [ngClass]="{'error': error}"
   
         (input)="onInput($event.target)"
         (blur)="onTouched($event)"
         (focus)="onFocus()"
-        />
+      >
+      </textarea>
     </div>
   </div>
   @if (error) {

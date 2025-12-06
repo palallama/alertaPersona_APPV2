@@ -1,0 +1,106 @@
+.verificacion-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verificacion-card {
+  background: var(--ion-card-background, #fff);
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+
+  ion-spinner {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 24px;
+  }
+
+  ion-icon {
+    font-size: 96px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 16px 0;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 16px 0;
+    color: var(--ion-text-color);
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 12px 0;
+    color: var(--ion-color-medium);
+  }
+
+  .invitador-info {
+    font-size: 18px;
+    margin: 20px 0;
+    color: var(--ion-text-color);
+
+    strong {
+      color: var(--ion-color-primary);
+    }
+  }
+
+  .mensaje {
+    color: var(--ion-text-color);
+    font-size: 16px;
+  }
+
+  .redireccion-info {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ion-color-medium);
+    margin-top: 20px;
+  }
+
+  &.success {
+    border-top: 4px solid var(--ion-color-success);
+  }
+
+  &.error {
+    border-top: 4px solid var(--ion-color-danger);
+  }
+
+  app-general-button {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .verificacion-card {
+    padding: 24px 16px;
+
+    ion-icon {
+      font-size: 72px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    .invitador-info {
+      font-size: 16px;
+    }
+  }
+}

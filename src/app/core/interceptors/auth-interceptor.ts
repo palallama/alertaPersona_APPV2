@@ -11,6 +11,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
+  // URLs externas que no requieren autenticación
+  const excludedUrls = [
+    'maps.googleapis.com',
+    'googleapis.com'
+  ];
+
+  // Verificar si la URL debe ser excluida
+  const isExcluded = excludedUrls.some(url => req.url.includes(url));
+
+  // Si la URL está excluida, continuar sin agregar el token
+  if (isExcluded) {
+    return next(req);
+  }
+
   // Obtenemos el token de forma asíncrona
   return from(storageService.get(StorageKeys.TOKEN)).pipe(
     switchMap(token => {

@@ -12,19 +12,14 @@
     }
     
     <div class="custom-alert-input">
-      <!-- <ion-input
-        [type]="inputType"
-        [placeholder]="inputPlaceholder"
+      <app-textarea-input
         [(ngModel)]="inputValue"
-        [autofocus]="true">
-      </ion-input> -->
-      <app-text-input 
-        [(ngModel)]="inputValue" 
-        [inputType]="inputType"
         [placeholder]="inputPlaceholder"
+        [mostarLabel]="false"
         [autofocus]="true"
+        [textareaHeight]="'100px'"
       >
-      </app-text-input>
+      </app-textarea-input>
     </div>
     
     <div class="custom-alert-buttons">

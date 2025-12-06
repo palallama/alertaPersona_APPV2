@@ -7,7 +7,6 @@ import { LOCALE_ID } from '@angular/core';
 import localeEs from '@angular/common/locales/es-AR';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { importProvidersFrom } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { addIcons } from 'ionicons';
 import { 
@@ -71,6 +70,5 @@ bootstrapApplication(AppComponent, {
       GoogleMapsModule
     ),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    ModalController,
   ],
 });

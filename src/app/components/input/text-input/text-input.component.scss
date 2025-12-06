@@ -8,7 +8,7 @@
 }
 
 .requerido {
-    color: red;
+    color: var(--ion-color-danger, #eb445a);
 }
 
 input {
@@ -16,13 +16,13 @@ input {
     height: 48px;
     margin: 0;
     box-sizing: border-box;
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--ion-color-medium, #D9D9D9);
     border-radius: 6px;
-    background-color: #EFEFEF;
+    background-color: var(--ion-color-light, #EFEFEF);
     font-size: 20px;
     font-weight: 300;
-    color: #545454;
-    padding: 5px;
+    color: var(--ion-text-color, #545454);
+    padding: 5px 5px 5px 12px;
 }
 
 label {
@@ -36,16 +36,31 @@ label {
     position: relative;
 }
 
+.input > div {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .input input {
-    // padding-right: 30px;
     padding-left: 12px;
-    /* Ajusta el espacio para el botón */
+}
+
+.input input.icon-izq,
+.input .icon-izq + input {
+    padding-left: 40px !important;
+    /* Ajusta el espacio para el ícono cuando está presente */
 }
 
 .input .icon-izq {
     position: absolute;
+    left: 0;
     top: 50%;
     transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    align-items: center;
 }
 
 .icon {
@@ -58,18 +73,18 @@ label {
     font-size: 9px;
     font-weight: lighter;
     margin-left: 2px;
-    color: gray;
+    color: var(--ion-color-medium-shade, gray);
 }
 
 input.is-invalid {
-  border-color: #dc3545 !important;
+  border-color: var(--ion-color-danger, #dc3545) !important;
 }
 
 .invalid-feedback {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
-  color: #dc3545;
+  color: var(--ion-color-danger, #dc3545);
 }
 
 // .error {

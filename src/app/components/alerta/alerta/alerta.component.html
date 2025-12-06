@@ -7,15 +7,16 @@
     }
     @if(message) {
       <div class="custom-alert-content">
-        <p>{{ message }}</p>
+        <p [innerHTML]="message"></p>
       </div>
     }
     
     <div class="custom-alert-buttons">
-      @for(button of buttons; track button) {
+      @for(button of buttons; track button.text) {
         <ion-button 
           (click)="onButtonClick(button)"
-          [class]="button.cssClass || ''">
+          [class]="button.cssClass || ''"
+          [attr.role]="button.role || 'button'">
           {{ button.text }}
         </ion-button>
       }

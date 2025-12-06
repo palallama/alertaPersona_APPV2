@@ -14,6 +14,7 @@ import {
   IonInput,
   ModalController 
 } from '@ionic/angular/standalone';
+import { Share } from '@capacitor/share';
 import * as QRCode from 'qrcode';
 
 @Component({
@@ -103,6 +104,19 @@ export class ShareLinkModalComponent implements OnInit {
     }
     
     document.body.removeChild(textArea);
+  }
+
+  async share() {
+    try {
+      await Share.share({
+        title: this.title,
+        text: 'Compartiendo enlace',
+        url: this.shareLink,
+        dialogTitle: 'Compartir enlace'
+      });
+    } catch (error) {
+      console.error('Error al compartir:', error);
+    }
   }
 
   async closeModal() {

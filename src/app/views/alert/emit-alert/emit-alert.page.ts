@@ -45,8 +45,9 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
   private cdr = inject(ChangeDetectorRef);
   private alerts = inject(AlertService);
   
-  // Intervalo para actualización periódica de asistentes
+  // Intervalo para actualización periódica de asistentes y estado de alerta
   private assistantUpdateInterval: any;
+  private alertStatusInterval: any;
   private readonly UPDATE_INTERVAL_MS = 10000; // 10 segundos
   private lastAssistantCount = 0; // Para detectar cambios
   
@@ -89,20 +90,23 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
   }
 
   ngOnDestroy() {
-    // Limpiar el intervalo cuando se destruye el componente
+    // Limpiar los intervalos cuando se destruye el componente
     this.stopAssistantUpdates();
+    this.stopAlertStatusCheck();
   }
 
   ionViewWillEnter() {
     // Reanudar actualizaciones cuando la vista va a entrar
     if (this.alerta.id && !this.alerta.cerrada && !this.assistantUpdateInterval) {
       this.startAssistantUpdates();
+      this.startAlertStatusCheck();
     }
   }
 
   ionViewWillLeave() {
     // Pausar actualizaciones cuando la vista va a salir (pero no destruir el componente)
     this.stopAssistantUpdates();
+    this.stopAlertStatusCheck();
   }
 
   // ========== MÉTODOS DE INICIALIZACIÓN ==========
@@ -163,7 +167,7 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
       // message: 'Una vez cancelada, sus contactos no serán notificados.',
       buttons: [
         { 
-          text: 'Cancelar', 
+          text: 'Volver', 
           role: 'cancel',
           handler: () => {
             console.log('El usuario canceló');
@@ -171,7 +175,7 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
           }
         },
         { 
-          text: 'Aceptar', 
+          text: 'Cancelar', 
           role: 'confirm',
           handler: () => {
             this.cerrarAlerta(AlertaEstados.CANCELADA);
@@ -188,7 +192,7 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
       // message: 'Una vez marcada como resuelta, sus contactos no serán notificados.',
       buttons: [
         { 
-          text: 'Cancelar', 
+          text: 'Volver', 
           role: 'cancel',
           handler: () => {
             console.log('El usuario canceló');
@@ -217,7 +221,7 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
         this.alerta.fchCierre = new Date();
         this.alerta.cerrada = true;
         
-        await firstValueFrom(this.alertaService.cerrarAlerta(this.alerta.id, estado));
+        await firstValueFrom(this.alertaService.cerrarAlerta(Number(this.alerta.id), estado));
         console.log(`Alerta ${estado === AlertaEstados.CANCELADA ? 'cancelada' : 'solucionada'}`);
       }
       
@@ -234,6 +238,7 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
         this.alerta.id = nuevaAlerta.id;
         this.getAsistentes();
         this.startAssistantUpdates(); // Iniciar actualizaciones periódicas
+        this.startAlertStatusCheck(); // Iniciar verificación de estado
         console.log('Alerta creada con ID:', this.alerta.id);
       }
     } catch (error) {
@@ -307,6 +312,69 @@ export class EmitAlertPage implements OnInit, OnDestroy, ViewWillEnter, ViewWill
       clearInterval(this.assistantUpdateInterval);
       this.assistantUpdateInterval = null;
       console.log('Detenidas actualizaciones periódicas de asistentes');
+    }
+  }
+
+  private startAlertStatusCheck() {
+    // Solo iniciar si no hay un intervalo activo
+    if (this.alertStatusInterval) {
+      return;
+    }
+    
+    this.alertStatusInterval = setInterval(() => {
+      this.checkAlertStatus();
+    }, this.UPDATE_INTERVAL_MS);
+    
+    console.log('Iniciada verificación periódica del estado de la alerta cada', this.UPDATE_INTERVAL_MS / 1000, 'segundos');
+  }
+  
+  private stopAlertStatusCheck() {
+    if (this.alertStatusInterval) {
+      clearInterval(this.alertStatusInterval);
+      this.alertStatusInterval = null;
+      console.log('Detenida verificación periódica del estado de la alerta');
+    }
+  }
+
+  private async checkAlertStatus() {
+    if (!this.alerta.id) {
+      return;
+    }
+    
+    try {
+      const alertaActualizada = await firstValueFrom(this.alertaService.getAlerta(this.alerta.id));
+      
+      if (alertaActualizada) {
+        // Verificar si la alerta fue cerrada (cancelada o solucionada)
+        if (alertaActualizada.cerrada && !this.alerta.cerrada) {
+          console.log('La alerta fue cerrada por un asistente. Estado:', alertaActualizada);
+          
+          // Actualizar el estado local
+          this.alerta = alertaActualizada;
+          
+          // Detener todas las actualizaciones
+          this.stopAssistantUpdates();
+          this.stopAlertStatusCheck();
+          
+          // Mostrar mensaje y redirigir al home
+          await this.alerts.showAlert({
+            title: 'Alerta cerrada',
+            message: `La alerta fue ${alertaActualizada.estado === AlertaEstados.CANCELADA ? 'cancelada' : 'solucionada'} por un asistente.`,
+            buttons: [
+              { 
+                text: 'Aceptar', 
+                role: 'confirm',
+                handler: () => {
+                  this.router.navigate(['/home']);
+                  return true;
+                }
+              }
+            ]
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error verificando estado de la alerta:', error);
     }
   }
 

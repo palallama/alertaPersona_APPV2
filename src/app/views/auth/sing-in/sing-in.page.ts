@@ -6,11 +6,14 @@ import { TextInputComponent } from 'src/app/components/input/text-input/text-inp
 import { PasswordInputComponent } from 'src/app/components/input/password-input/password-input.component';
 import { GeneralButton } from 'src/app/components/buttons/general-button/general-button';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/components/alerta/alerta.service';
 import { Usuario } from 'src/app/core/interfaces/usuario';
 import { SelectInputComponent } from 'src/app/components/input/select-input/select-input.component';
 import { appLogo, appName } from 'src/app/core/constants';
+import { ContactoService } from 'src/app/core/services/contacto';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { StorageKeys } from 'src/app/core/interfaces/storage';
 
 @Component({
   selector: 'app-sing-in',
@@ -20,7 +23,7 @@ import { appLogo, appName } from 'src/app/core/constants';
   imports: [
     IonRow,
     IonCol,
-    IonGrid, 
+    IonGrid,
     IonContent,
     CommonModule,
     FormsModule,
@@ -33,14 +36,17 @@ import { appLogo, appName } from 'src/app/core/constants';
     SelectInputComponent
   ],
 })
-export class SingInPage {
+export class SingInPage implements OnInit {
   private usuarioService = inject(UsuarioService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private alerts = inject(AlertService);
+  private contactoService = inject(ContactoService);
+  private storageService = inject(StorageService);
   appLogo = appLogo;
   appName = appName;
 
-
+  codigoInvitacion: string | null = null;
   usuario!: Usuario;
   usuarioNuevo = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -60,14 +66,49 @@ export class SingInPage {
     { id: 'F', nombre: 'Femenino' },
     { id: 'X', nombre: 'X' }
   ];
+
+  async ngOnInit() {
+    // Intentar obtener código de storage primero
+    const codigoStorage = await this.storageService.get(StorageKeys.CODIGO_INVITACION);
+    
+    // Capturar el código de invitación de los query params o storage
+    this.route.queryParams.subscribe(params => {
+      this.codigoInvitacion = params['codigo'] || codigoStorage || null;
+      console.log('Código de invitación:', this.codigoInvitacion);
+    });
+  }
+
   registro() {
     console.log(this.usuarioNuevo);
     console.log(this.usuarioNuevo.valid);
 
     console.log(this.usuarioNuevo.value.genero)
 
-    if (this.usuarioNuevo.valid && (this.usuarioNuevo.value.password === this.usuarioNuevo.value.passwordRepetida)){
+    if (this.usuarioNuevo.valid && (this.usuarioNuevo.value.password === this.usuarioNuevo.value.passwordRepetida)) {
       console.log(" *** Registrado");
+      // this.usuario = {
+      //   nombre: this.usuarioNuevo.value.nombre!,
+      //   apellido: this.usuarioNuevo.value.apellido!,
+      //   nroDocumento: this.usuarioNuevo.value.nroDocumento!,
+      //   telefono: this.usuarioNuevo.value.telefono!,
+      //   nroTramite: this.usuarioNuevo.value.nroTramite!,
+      //   mail: this.usuarioNuevo.value.mail!,
+      //   password: this.usuarioNuevo.value.password!,
+      //   genero: this.usuarioNuevo.value.genero!,
+      //   fchNacimiento: this.usuarioNuevo.value.fchNacimiento!
+      // }
+
+      // this.usuarioService.insertUsuario(this.usuario).subscribe({
+      //   next: (res: any) => {
+      //     console.log(res);
+      //     console.log("usuario registrado");
+      //     this.router.navigateByUrl("/login");
+      //   },
+      //   error: (err: any) => {
+      //     console.log(err);
+      //     this.definirError(err);
+      //   }
+      // })
 
       this.usuario = {
         nombre: this.usuarioNuevo.value.nombre!,
@@ -82,24 +123,72 @@ export class SingInPage {
       }
 
       this.usuarioService.insertUsuario(this.usuario).subscribe({
-        next: (res:any) => {
+        next: (res: any) => {
           console.log(res);
           console.log("usuario registrado");
-          this.router.navigateByUrl("/login");
+
+          // Si hay código de invitación, aceptarla después del registro exitoso
+          if (this.codigoInvitacion && res.id) {
+            this.aceptarInvitacion(res.id);
+          } else {
+            this.router.navigateByUrl("/login");
+          }
         },
-        error: (err:any) => {
+        error: (err: any) => {
           console.log(err);
           this.definirError(err);
         }
       })
+      //   next: (res: any) => {
+      //     console.log(res);
+      //     console.log("usuario registrado");
+      //     this.router.navigateByUrl("/login");
+      //   },
+      //   error: (err: any) => {
+      //     console.log(err);
+      //     this.definirError(err);
+      //   }
+      // })
 
 
-    }else{
+    } else {
       this.definirError();
     }
   }
-  
-  mostrarError(message:string = 'Ocurrio un error') {
+
+  async aceptarInvitacion(usuarioId: string) {
+    if (!this.codigoInvitacion) {
+      this.router.navigateByUrl("/login");
+      return;
+    }
+
+    this.contactoService.aceptarInvitacion(this.codigoInvitacion, usuarioId).subscribe({
+      next: async (response) => {
+        console.log('Invitación aceptada exitosamente:', response);
+        // Limpiar el código de storage
+        await this.storageService.remove(StorageKeys.CODIGO_INVITACION);
+        
+        this.alerts.showAlert({
+          title: '¡Bienvenido!',
+          message: 'Tu registro fue exitoso y la invitación fue aceptada. Ya puedes iniciar sesión.'
+        });
+        this.router.navigateByUrl("/login");
+      },
+      error: async (error) => {
+        console.error('Error al aceptar invitación:', error);
+        // Limpiar el código de storage incluso si falla
+        await this.storageService.remove(StorageKeys.CODIGO_INVITACION);
+        
+        this.alerts.showAlert({
+          title: 'Registro exitoso',
+          message: 'Tu registro fue exitoso, pero hubo un problema al aceptar la invitación. Por favor, contacta con soporte.'
+        });
+        this.router.navigateByUrl("/login");
+      }
+    });
+  }
+
+  mostrarError(message: string = 'Ocurrio un error') {
     console.log(message);
     this.alerts.showAlert({
       title: 'Error',
@@ -107,12 +196,12 @@ export class SingInPage {
     });
   }
 
-  definirError(error:any=undefined) {
+  definirError(error: any = undefined) {
     let errorMessage = 'Error al registrar usuario. Por favor, inténtelo de nuevo más tarde.';
 
     (this.usuarioNuevo.value.password === this.usuarioNuevo.value.passwordRepetida) ? '' : errorMessage = 'Las contraseñas no coinciden.\n';
 
-    if (this.usuarioNuevo.invalid){
+    if (this.usuarioNuevo.invalid) {
       this.usuarioNuevo.controls.mail.hasError('email') ? errorMessage = 'El correo electrónico no es válido.\n' : '';
 
       this.usuarioNuevo.controls.nroDocumento.hasError('minlength') ? errorMessage = 'El Número de Documento debe tener 8 caracteres.\n' : '';

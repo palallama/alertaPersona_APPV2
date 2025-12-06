@@ -8,8 +8,10 @@ import { arrowForward } from 'ionicons/icons';
 import { AlertaService } from 'src/app/core/services/alerta.service';
 import { LocalizacionService } from 'src/app/core/services/localizacion.service';
 import { NotificacionService } from 'src/app/core/services/notificacion.service';
+import { DebugService } from 'src/app/core/services/debug.service';
 import { emitirAlerta } from 'src/app/core/common/alerta';
 import { appLogo, appTitle } from 'src/app/core/constants';
+import { AlertService } from 'src/app/components/alerta/alerta.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,10 @@ export class HomePage implements OnInit {
   alertaService = inject(AlertaService);
   localizacionService = inject(LocalizacionService);
   notificacionService = inject(NotificacionService);
+  private debugService = inject(DebugService); // Inyectar para inicializar
+
+  private alerts = inject(AlertService);
+
   router = inject(Router);
   appLogo = appLogo;
   appTitle = appTitle;
@@ -171,4 +177,5 @@ export class HomePage implements OnInit {
       alert('Error al activar la alerta. Intenta nuevamente.');
     }
   }
+
 }

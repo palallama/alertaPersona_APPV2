@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { AlertButton } from './alerta';
 import { AlertaComponent } from './alerta/alerta.component';
 import { AlertaInputComponent } from './alerta-input/alerta-input.component';
@@ -29,10 +29,12 @@ export class AlertService  {
         showCloseButton: options.showCloseButton ?? true // Default true
       },
       cssClass: `custom-alert-modal ${options.cssClass || ''}`,
-      backdropDismiss: options.backdropDismiss ?? true, 
+      backdropDismiss: options.backdropDismiss ?? true,
+      mode: 'md', // Forzar modo Material Design para consistencia
+      animated: true,
     });
     
-    await modal.present();
+    return await modal.present();
   }
   async showInputAlert(options: {
     title?: string;

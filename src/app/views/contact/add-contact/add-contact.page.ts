@@ -33,6 +33,7 @@ import {
 import { Usuario, UsuarioLogueado } from 'src/app/core/interfaces/usuario';
 import { ContactoService } from 'src/app/core/services/contacto';
 import { UserStorageService } from 'src/app/core/services/user-storage';
+import { AlertService } from 'src/app/components/alerta/alerta.service';
 
 interface UsuarioEncontrado extends Usuario {
   esContacto?: boolean;
@@ -69,6 +70,7 @@ interface UsuarioEncontrado extends Usuario {
 export class AddContactPage implements OnInit {
   private contactoService = inject(ContactoService);
   private userStorage = inject(UserStorageService);
+  private alerts = inject(AlertService);
 
   usuarioLogeado!:UsuarioLogueado|null;
 
@@ -163,11 +165,42 @@ export class AddContactPage implements OnInit {
 
   }
 
-  invitarUsuario() {
-    console.log('Invitando usuario con término:', this.search);
-    
-    alert(`Se ha enviado una invitación a: ${this.search}`);
-    this.router.navigate(['/contacts']);
+  async invitarUsuario() {
+
+    this.contactoService.enviarInvitacion(this.usuarioLogeado!.id, this.search).subscribe({
+      next: async (res) => {
+        let message = `Se ha enviado una invitación a: ${this.search}`;
+        console.log(message);
+        await this.alerts.showAlert({
+          title: 'Invitación enviada',
+          message: message,
+          buttons: [
+            { 
+              text: 'Aceptar', 
+              role: 'confirm',
+            }
+          ]
+        });
+        this.router.navigate(['/contacts']);
+      },
+      error: async (err) => {
+        let message = 'Error al enviar la invitación. Intente nuevamente.';
+        console.error(message, err);
+        console.log(err);
+        console.log(err.error);
+        message = err.error?.message || message;
+        await this.alerts.showAlert({
+          title: 'Error',
+          message: message,
+          buttons: [
+            { 
+              text: 'Aceptar', 
+              role: 'confirm',
+            }
+          ]
+        });
+      }
+    });
   }
 
   goBack() {

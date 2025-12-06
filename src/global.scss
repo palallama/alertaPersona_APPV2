@@ -72,10 +72,28 @@
   --border-radius: 12px;
   padding: 0px 5vh;
   text-align: center;
+  z-index: 20000 !important;
   
   .ion-page {
     justify-content: center;
     align-items: center;
     display: flex;
+  }
+  
+  ion-backdrop {
+    z-index: 19999 !important;
+  }
+}
+
+/* Asegurar que el backdrop del modal tenga z-index alto en móvil */
+ion-modal.custom-alert-modal {
+  z-index: 20000 !important;
+  
+  &::part(backdrop) {
+    z-index: 19999 !important;
+  }
+  
+  &::part(content) {
+    z-index: 20000 !important;
   }
 }

@@ -56,3 +56,19 @@ export function getEstadoDescripcion(estado: EstadoContacto): string {
       return 'Desconocido';
   }
 }
+
+export interface Invitacion {
+  id?: number,
+  usuarioId: number,
+  email: string,
+  telefono: string | null,
+  codigo: string,
+  estado: string,
+  mensaje: string,
+  fchCreacion: string,
+  fchExpiracion: string,
+  fchRespuesta: string | null,
+  usuarioRegistradoId: number | null,
+  link: string,
+  qrData: string
+}

@@ -1,5 +1,5 @@
 export interface Asistente {
-    alertaId: string;
+    alertaId: number;
     usuarioId: number;
     estado: AsistenteAccion;
     observacion: string;

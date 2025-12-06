@@ -38,7 +38,7 @@ import { Contacto, EstadoContacto } from '../../../core/interfaces/contacto';
 import { ShareLinkModalComponent } from '../../../components/share-link-modal/share-link-modal.component';
 import { ContactoService } from 'src/app/core/services/contacto';
 import { UserStorageService } from 'src/app/core/services/user-storage';
-import { finalize } from 'rxjs';
+import { finalize, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-contacts',
@@ -225,10 +225,13 @@ export class ContactsPage implements OnInit, ViewWillEnter {
 
   async shareInvitationLink() {
     try {
+
+      let link = await firstValueFrom(this.contactoService.generarLinkInvitacion(this.usuarioLogueado.id));
+
       const modal = await this.modalCtrl.create({
         component: ShareLinkModalComponent,
         componentProps: {
-          shareLink: 'https://alertapersona.com/invitacion/user_' + Math.random().toString(36).substr(2, 9),
+          shareLink: link.link,
           title: 'Compartir invitación'
         },
         breakpoints: [0, 0.6, 0.9],

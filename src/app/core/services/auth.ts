@@ -20,9 +20,13 @@ export class AuthService {
   setAccessToken(accessToken: string) {
     this.storageService.set(StorageKeys.TOKEN, accessToken);
   }
+  setRefreshToken(refreshToken: string) {
+    this.storageService.set(StorageKeys.REFRESH_TOKEN, refreshToken);
+  }
 
   clearTokens() {
     this.storageService.remove(StorageKeys.TOKEN);
+    this.storageService.remove(StorageKeys.REFRESH_TOKEN);
     this.storageService.remove(StorageKeys.TOKEN_NOTIFICACION);
   }
 
@@ -41,6 +45,7 @@ export class AuthService {
     return this.http.post(`${this.URL_COMPLETA}/auth/login`, { mail, password }).pipe(
       tap((res: any) => {
         this.setAccessToken(res.accessToken);
+        this.setRefreshToken(res.refreshToken);
         this.userStorage.setUsuario(res.usuario);
       })
     )
@@ -49,6 +54,14 @@ export class AuthService {
   cerrarSesion() {
     this.clearTokens();
     this.userStorage.clearUsuario();
+    this.clearSessionData();
+  }
+
+  clearSessionData() {
+    // Recorrer todos los valores de StorageKeys y borrarlos
+    Object.values(StorageKeys).forEach(key => {
+      this.storageService.remove(key);
+    });
   }
 
   cambiarContrasena(nuevaContrasena:string, contrasenaActual:string) {
@@ -71,6 +84,33 @@ export class AuthService {
           nuevaContrasena: password, 
           codigo: String(codigo) 
         });
+      })
+    );
+  }
+
+  refrescarToken(): Observable<{ accessToken: string, refreshToken?: string }> {
+    return from(this.storageService.get(StorageKeys.REFRESH_TOKEN)).pipe(
+      switchMap(refreshToken => {
+        if (!refreshToken) {
+          return of({ accessToken: '' });
+        }
+        return this.http.post<{ access_token: string }>(`${this.URL_COMPLETA}/auth/refresh`, { refresh_token: refreshToken }).pipe(
+          tap(response => {
+            // El backend retorna "access_token", lo guardamos
+            if (response.access_token) {
+              this.setAccessToken(response.access_token);
+            }
+          }),
+          map(response => ({
+            accessToken: response.access_token || '',
+            refreshToken: refreshToken // Mantener el mismo refresh token
+          })),
+          catchError(() => {
+            // Si falla el refresh (401), limpiar tokens
+            this.clearTokens();
+            return of({ accessToken: '' });
+          })
+        );
       })
     );
   }

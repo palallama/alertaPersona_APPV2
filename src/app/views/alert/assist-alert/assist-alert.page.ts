@@ -47,7 +47,7 @@ export class AssistAlertPage implements OnInit, OnDestroy {
   private alerts = inject(AlertService);
 
   alerta?: Alerta;
-  alertaId?: string;
+  alertaId?: number;
   ubicacionUsuario?: { lat: number; lng: number };
   
   // Configuración del mapa - Se inicializará con los datos reales de la alerta
@@ -86,7 +86,7 @@ export class AssistAlertPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.alertaId = this.route.snapshot.paramMap.get('id') || undefined;
+    this.alertaId = Number(this.route.snapshot.paramMap.get('id')) || undefined;
     if (this.alertaId) {
       this.cargarAlerta();
       this.startAlertStatusCheck(); // Iniciar verificación periódica
@@ -293,16 +293,16 @@ export class AssistAlertPage implements OnInit, OnDestroy {
 
   async onCerrarAlerta() {
     const resultado = await this.alerts.showInputAlert({
-      title: 'Seguro que desea cerrar la alerta?',
+      title: 'Seguro que desea solucionar la alerta?',
       message: 'Declare un motivo de cierre: ',
       inputType: 'text',
       buttons: [
         {
-          text: 'Cancelar',
+          text: 'Volver',
           role: 'cancel'
         },
         {
-          text: 'Eliminar',
+          text: 'Solucionar',
           role: 'confirm',
           handler: (valor) => {
             if (!valor) {
@@ -318,7 +318,7 @@ export class AssistAlertPage implements OnInit, OnDestroy {
     // Verificar el resultado
     if (resultado?.role === 'confirm') {
       console.log('Valor ingresado:', resultado.value);
-      this.volverAlHome();
+      this.cerrarAlerta();
     } else {
       console.log('El usuario canceló la operación');
     }
@@ -333,6 +333,11 @@ export class AssistAlertPage implements OnInit, OnDestroy {
     return this.currentStatus === AlertaEstados.CANCELADA ||
            this.currentStatus === AlertaEstados.SOLUCIONADA ||
            this.currentStatus === AlertaEstados.EXPIRADA;
+  }
+
+  async cerrarAlerta() {
+    await firstValueFrom(this.alertaService.cerrarAlerta(Number(this.alertaId!),AlertaEstados.SOLUCIONADA))
+    this.volverAlHome();
   }
 
   volverAlHome() {

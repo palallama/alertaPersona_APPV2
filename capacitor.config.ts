@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'AlertaPersona',
   webDir: 'www',
   server: {
-    androidScheme: 'http'
+    androidScheme: 'https',
+    hostname: 'app-alertapersona.julitorossian.dev'
   },
   plugins: {
     PushNotifications: {
